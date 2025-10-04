@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FE TEST</title>
+  <link rel="stylesheet" href="/cssProductDetails.css" />
+</head>
+<body>
+  <div class="layout">
+    <!-- 上方區塊 -->
+    <header class="header">
+      <h1>功能區 (20%)</h1>
+    </header>
+
+    <!-- 中間區塊 -->
+    <main class="main">
+      <aside class="left">Left留白 (20%)</aside>
+      <section class="center">
+        <!-- 中央上方 60% -->
+        <div class="center-top">
+          <div class="center-top-left">
+            <img src="product.jpg" alt="商品照片" class="product-image" />
+          </div>
+          <div class="center-top-right">
+            <h1 class="product-title">品名</h1>
+
+            <!-- 顏色 -->
+            <div class="option-group">
+              <h3>顏色:</h3>
+              <div class="color-options">
+                <label class="option-box" style="background-color: red;">
+                  <input type="radio" name="color" value="紅色" />
+                </label>
+                <label class="option-box" style="background-color: blue;">
+                  <input type="radio" name="color" value="藍色" />
+                </label>
+                <label class="option-box" style="background-color: green;">
+                  <input type="radio" name="color" value="綠色" />
+                </label>
+                <label class="option-box" style="background-color: black;">
+                  <input type="radio" name="color" value="黑色" />
+                </label>
+                <label class="option-box" style="background-color: white; border: 1px solid #000;">
+                  <input type="radio" name="color" value="白色" />
+                </label>
+              </div>
+            </div>
+
+            <!-- 尺寸 -->
+            <div class="option-group">
+              <h3>尺寸:</h3>
+              <div class="size-options">
+                <label class="option-box text-option">
+                  <input type="radio" name="size" value="XS" /> <span>XS</span>
+                </label>
+                <label class="option-box text-option">
+                  <input type="radio" name="size" value="S" /> <span>S</span>
+                </label>
+                <label class="option-box text-option">
+                  <input type="radio" name="size" value="M" /> <span>M</span>
+                </label>
+                <label class="option-box text-option">
+                  <input type="radio" name="size" value="L" /> <span>L</span>
+                </label>
+                <label class="option-box text-option">
+                  <input type="radio" name="size" value="XL" /> <span>XL</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- 數量 -->
+            <div class="option-group quantity-group">
+              <h3>數量:</h3>
+              <div class="quantity-control">
+                <button class="qty-btn" onclick="decreaseQty()">-</button>
+                <input type="number" id="quantity" value="0" min="0" readonly />
+                <button class="qty-btn" onclick="increaseQty()">+</button>
+              </div>
+            </div>
+
+            <!-- 選擇結果提示 -->
+            <div id="selection-summary">已選：尚未選擇</div>
+
+            <!-- 按鈕 -->
+            <div class="action-buttons">
+              <button class="oval-btn">加入購物車</button>
+              <button class="oval-btn">直接結帳</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 中央下方 40% -->
+        <div class="center-bottom">
+          <h1>商品詳細說明 (40%)</h1>
+        </div>
+      </section>
+      <aside class="right">Right留白 (20%)</aside>
+    </main>
+
+    <!-- 下方區塊 -->
+    <footer class="footer">
+      <h1>官方資訊 (10%)</h1>
+    </footer>
+  </div>
+
+  <script>
+    function updateSelectionSummary() {
+        const color = document.querySelector('input[name="color"]:checked')?.value || '未選擇顏色';
+        const size = document.querySelector('input[name="size"]:checked')?.value || '未選擇尺寸';
+        const quantity = document.getElementById("quantity")?.value || '0';
+
+        const summary = `已選：<span class="selected-color">${color}</span> / ${size} / 數量：${quantity}`;
+        document.getElementById("selection-summary").innerHTML = summary;
+    }
+
+
+    document.querySelectorAll('input[name="color"], input[name="size"]').forEach(input => {
+      input.addEventListener('change', updateSelectionSummary);
+    });
+
+    function increaseQty() {
+      const qtyInput = document.getElementById("quantity");
+      let current = parseInt(qtyInput.value, 10);
+      qtyInput.value = current + 1;
+      updateSelectionSummary();
+    }
+
+    function decreaseQty() {
+      const qtyInput = document.getElementById("quantity");
+      let current = parseInt(qtyInput.value, 10);
+      if (current > 0) {
+        qtyInput.value = current - 1;
+        updateSelectionSummary();
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,289 @@
+/* ================================
+   Layout 主容器與區塊切版
+================================ */
+.layout {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header,
+.footer {
+  flex: 0 0 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main {
+  flex: 1 1 auto;
+  display: flex;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.left,
+.right {
+  flex: 0 0 20%;
+  background: #f5c6cb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.center {
+  flex: 1 1 60%;
+  display: flex;
+  flex-direction: column;
+  background: #fff3cd;
+  min-height: 0;
+}
+
+.center-top {
+  flex: 0 0 60%;
+  display: flex;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.center-bottom {
+  flex: 0 0 40%;
+  background: #ddd;
+  padding: 1rem;
+  overflow: auto;
+}
+
+.center-top-left {
+  flex: 0 0 40%;
+  background: #fdd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+}
+
+.center-top-right {
+  flex: 0 0 60%;
+  background: #dfd;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  overflow: hidden;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+/* ================================
+   商品選項區塊（固定高度排版）
+================================ */
+.center-top-right > * {
+  flex-shrink: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.product-title {
+  flex: 0 0 20%;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+}
+
+/* 顏色區塊 */
+.option-group:nth-of-type(1) {
+  flex: 0 0 15%;
+  display: flex;
+  align-items: center;
+}
+.option-group:nth-of-type(1) h3 {
+  margin-right: 0.5rem;
+  white-space: nowrap;
+}
+.color-options {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+}
+
+/* 尺寸區塊 */
+.option-group:nth-of-type(2) {
+  flex: 0 0 15%;
+  display: flex;
+  align-items: center;
+}
+.option-group:nth-of-type(2) h3 {
+  margin-right: 0.5rem;
+  white-space: nowrap;
+}
+.size-options {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+}
+
+/* 數量區塊 */
+.option-group.quantity-group {
+  flex: 0 0 15%;
+  display: flex;
+  align-items: center;
+}
+.option-group.quantity-group h3 {
+  margin-right: 0.5rem;
+  white-space: nowrap;
+}
+.quantity-control {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+}
+
+/* 選擇提示 */
+#selection-summary {
+  flex: 0 0 15%;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  color: #0004fff8; /* 整段藍色 */
+}
+
+
+/* 操作按鈕 */
+.action-buttons {
+  flex: 0 0 20%;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.oval-btn {
+  padding: 0.6em 1.5em;
+  border-radius: 999px;
+  border: none;
+  background: #007bff;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  flex: 1 1 auto;
+  min-width: 120px;
+}
+
+.oval-btn:hover {
+  background: #0056b3;
+}
+
+/* ================================
+   選項樣式
+================================ */
+.option-box {
+  width: 3em;
+  height: 3em;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 2px solid #ccc;
+  box-sizing: border-box;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.option-box input {
+  display: none;
+}
+
+.option-box:has(input:checked) {
+  border: 3px solid #000;
+}
+
+.text-option {
+  background-color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+/* 數量欄位 */
+.qty-btn {
+  width: 3em;
+  height: 2em;
+  border-radius: 4px;
+  border: 1px solid #aaa;
+  background: #eee;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+#quantity {
+  width: 4ch;
+  text-align: center;
+  font-size: 1rem;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  background: #fff;
+}
+
+/* ================================
+   響應式設計：手機版優化
+================================ */
+@media screen and (max-width: 768px) {
+  .main {
+    flex-direction: column;
+  }
+
+  .left, .right {
+    flex: 0 0 auto;
+    height: 60px;
+  }
+
+  .center {
+    flex: 1 1 auto;
+    height: auto;
+  }
+
+  .center-top {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .center-top-left,
+  .center-top-right {
+    flex: 1 1 auto;
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .center-bottom {
+    height: auto;
+  }
+
+  .color-options,
+  .size-options {
+    flex-wrap: wrap;
+  }
+
+  .option-box {
+    flex: 0 0 calc(25% - 0.5rem);
+    max-width: calc(25% - 0.5rem);
+  }
+
+  .quantity-control {
+    flex-wrap: wrap;
+  }
+
+  .oval-btn {
+    flex: 1 1 100%;
+    font-size: 1.2rem;
+    padding: 1em;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
