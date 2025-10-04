@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>精美電商首頁</title>
+<style>
+/* -------------------- CSS 保留 -------------------- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body, html { height: 100%; font-family: Arial, sans-serif; }
+body { display: flex; flex-direction: column; min-height: 100vh; }
+
+/* Header */
+header { display: flex; flex-direction: column; background: #f8caca; }
+.top-header {
+  background: #ff9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 15vh;
+}
+.logo { font-weight: bold; font-size: 2rem; }
+.actions {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 15px;
+}
+.actions button {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 5px 0;
+  transition: border-color 0.3s, color 0.3s;
+}
+.actions button:hover {
+  border-bottom: 2px solid #fff;
+  color: #fff;
+}
+
+/* 導覽列 */
+.nav-bar {
+  height: 6vh;
+  background: #ffcccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+.nav-bar button {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 5px 0;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color 0.3s, color 0.3s;
+}
+.nav-bar button:hover {
+  border-bottom: 2px solid #ff6666;
+  color: #ff6666;
+}
+.nav-bar input {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Main */
+main { display: flex; flex-direction: column; flex: 0 0 auto; }
+
+/* 輪播區 */
+.banner {
+  height: 70vh;
+  position: relative;
+  overflow: hidden;
+  background: #cce5ff;
+}
+.carousel-track { display: flex; transition: transform 0.5s ease-in-out; height: 100%; }
+.carousel-track img { width: 100%; height: 100%; object-fit: cover; flex-shrink: 0; }
+.arrow {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  font-size: 2rem; color: white;
+  background-color: rgba(0,0,0,0.4); border: none;
+  padding: 10px; cursor: pointer; z-index: 10; border-radius: 50%;
+}
+.arrow-left { left: 10px; }
+.arrow-right { right: 10px; }
+.dots {
+  position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 8px;
+}
+.dot { width: 12px; height: 12px; background: rgba(255,255,255,0.5); border-radius: 50%; cursor: pointer; }
+.dot.active { background: rgba(255,255,255,1); }
+
+/* 熱賣商品標題 */
+.section-title {
+  text-align: center; font-size: 1.5rem; font-weight: bold;
+  padding: 10px 0; background: #fdf5e6; color: #d35400;
+}
+
+/* 熱賣商品滑動區 */
+.products-wrapper {
+  position: relative;
+  background: #d5f5d5;
+  padding: 10px 2vw;
+  margin-bottom: 2vh;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* 每一行商品 */
+.product-row {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  align-items: stretch;
+}
+
+/* 產品容器 */
+.products {
+  display: flex;
+  transition: transform 0.5s ease;
+  gap: 10px;
+}
+
+/* 單個商品 */
+.product-item {
+  flex: 0 0 calc(33.333% - 10px);
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.product-item img {
+  width: 100%;
+  height: auto;
+  flex: 1 0 auto;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.product-item button {
+  padding: 8px 10px;
+  border: none;
+  background: none;
+  border-bottom: 2px solid transparent;
+  color: #c0392b;
+  font-weight: bold;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease, border-color 0.3s;
+  text-align: center;
+}
+.product-item:hover img { transform: scale(1.05); }
+.product-item:hover button {
+  opacity: 1;
+  border-bottom: 2px solid #c0392b;
+}
+
+/* 熱賣商品箭頭 */
+.prod-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: rgba(255,255,255,0.7);
+  background-color: rgba(0,0,0,0.2);
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  z-index: 10;
+  border-radius: 50%;
+}
+.prod-left { left: 5px; }
+.prod-right { right: 5px; }
+
+/* Footer */
+footer {
+  background: #f0e68c;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 15px 20%;
+  font-size: 1rem;
+}
+footer button {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-weight: bold;
+  cursor: pointer;
+  transition: border-color 0.3s, color 0.3s;
+}
+footer button:hover {
+  border-bottom: 2px solid #caa400;
+  color: #caa400;
+}
+</style>
+<script src="script.js" defer></script>
+</head>
+
+<body>
+
+<header>
+  <div class="top-header">
+    <div class="logo">LOGO</div>
+    <div class="actions">
+      <button>購物車</button>
+      <button>訂單查詢</button>
+      <button>會員登入</button>
+    </div>
+  </div>
+  <nav class="nav-bar">
+    <button>女裝</button>
+    <button>男裝</button>
+    <button>童裝</button>
+    <button>限時特價</button>
+    <input type="text" placeholder="搜尋...">
+  </nav>
+</header>
+
+<main>
+  <section class="banner">
+    <div class="carousel-track">
+      <img src="images/img11.jpg" alt="輪播1">
+      <img src="images/img12.jpg" alt="輪播2">
+      <img src="images/img13.jpg" alt="輪播3">
+      <img src="images/img4.jpg" alt="輪播4">
+      <img src="images/img7.jpg" alt="輪播5">
+    </div>
+    <button class="arrow arrow-left">&#10094;</button>
+    <button class="arrow arrow-right">&#10095;</button>
+    <div class="dots">
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </section>
+
+  <div class="section-title">🔥 熱賣商品 🔥</div>
+
+  <section class="products-wrapper">
+    <div class="product-row" id="row1">
+      <button class="prod-arrow prod-left">&#10094;</button>
+      <div class="products">
+        <div class="product-item"><img src="images/img1.jpg"><button>加入購物車</button></div>
+        <div class="product-item"><img src="images/img2.jpg"><button>加入購物車</button></div>
+        <div class="product-item"><img src="images/img3.jpg"><button>加入購物車</button></div>
+        <div class="product-item"><img src="images/img4.jpg"><button>加入購物車</button></div>
+        <div class="product-item"><img src="images/img5.jpg"><button>加入購物車</button></div>
+      </div>
+      <button class="prod-arrow prod-right">&#10095;</button>
+    </div>
+
+    <div class="product-row" id="row2">
+      <button class="prod-arrow prod-left">&#10094;</button>
+      <div class="products">
+        <div class="product-item"><img src="images/img6.jpg"><button>加入購物車</button></div>
+        <div class="product-item"><img src="images/img7.jpg"><button>加入購物車</button></div>
+        <div class="product-item"><img src="images/img8.jpg"><button>加入購物車</button></div>
+        <div class="product-item"><img src="images/img9.jpg"><button>加入購物車</button></div>
+        <div class="product-item"><img src="images/img10.jpg"><button>加入購物車</button></div>
+      </div>
+      <button class="prod-arrow prod-right">&#10095;</button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <button>配送方式</button>
+  <button>退換貨說明</button>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>精美電商首頁</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body, html { height: 100%; font-family: Arial, sans-serif; }
+
+body { display: flex; flex-direction: column; height: 100vh; }
+
+/* Header */
+header { flex: 0 0 15%; display: flex; flex-direction: column; background: #f8caca; }
+.top-header { flex: 1; background: #ff9999; display: flex; justify-content: center; align-items: center; position: relative; }
+.logo { font-weight: bold; font-size: 2rem; }
+.actions { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); display: flex; gap: 15px; font-size: 0.9rem; }
+.actions a { text-decoration: none; color: #333; }
+.nav-bar { height: 40%; background: #ffcccc; display: flex; justify-content: center; align-items: center; gap: 20px; }
+.nav-bar input { padding: 5px; }
+
+/* Main */
+main { flex: 1; display: flex; flex-direction: column; }
+
+/* 輪播區 */
+.banner { flex: 0 0 30%; position: relative; overflow: hidden; background: #cce5ff; }
+.carousel-track { display: flex; transition: transform 0.5s ease-in-out; height: 100%; }
+.carousel-track img { width: 100%; height: 100%; object-fit: cover; display: block; flex-shrink: 0; }
+.arrow { position: absolute; top: 50%; transform: translateY(-50%); font-size: 2rem; color: white; background-color: rgba(0,0,0,0.4); border: none; padding: 10px; cursor: pointer; z-index: 10; border-radius: 50%; }
+.arrow-left { left: 10px; }
+.arrow-right { right: 10px; }
+.dots { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; }
+.dot { width: 12px; height: 12px; background: rgba(255,255,255,0.5); border-radius: 50%; cursor: pointer; }
+.dot.active { background: rgba(255,255,255,1); }
+
+/* 產品區 */
+.products {
+  flex: 1;
+  background: #d5f5d5;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.product-item {
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%; /* 正方形比例 */
+  overflow: hidden;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.product-item img {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.product-item button {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  padding: 5px 10px;
+  border: none;
+  background-color: rgba(255,0,0,0.8);
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.product-item:hover img { transform: scale(1.1); }
+.product-item:hover button { opacity: 1; }
+
+/* Footer */
+footer { flex: 0 0 10%; background: #f0e68c; display: flex; justify-content: space-between; align-items: center; padding: 20px; font-size: 1rem; }
+.footer-left { background: #ffd966; flex: 1; text-align: center; padding: 10px; }
+.footer-right { background: #ffe599; flex: 1; text-align: center; padding: 10px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="top-header">
+    <div class="logo">LOGO</div>
+    <div class="actions">
+      <a href="#">購物車</a>
+      <a href="#">訂單查詢</a>
+      <a href="#">會員登入</a>
+    </div>
+  </div>
+  <nav class="nav-bar">
+    <a href="#">女裝</a>
+    <a href="#">男裝</a>
+    <a href="#">童裝</a>
+    <a href="#">限時特價</a>
+    <input type="text" placeholder="搜尋...">
+  </nav>
+</header>
+
+<main>
+  <section class="banner">
+    <div class="carousel-track">
+      <img src="images/img1.jpg" alt="輪播1">
+      <img src="images/img2.jpg" alt="輪播2">
+      <img src="images/img3.jpg" alt="輪播3">
+      <img src="images/img4.jpg" alt="輪播4">
+      <img src="images/img7.jpg" alt="輪播5">
+    </div>
+    <button class="arrow arrow-left">&#10094;</button>
+    <button class="arrow arrow-right">&#10095;</button>
+    <div class="dots">
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </section>
+
+  <section class="products">
+    <div class="product-item"><img src="images/img1.jpg" alt="商品1"><button>加入購物車</button></div>
+    <div class="product-item"><img src="images/img2.jpg" alt="商品2"><button>加入購物車</button></div>
+    <div class="product-item"><img src="images/img3.jpg" alt="商品3"><button>加入購物車</button></div>
+    <div class="product-item"><img src="images/img4.jpg" alt="商品4"><button>加入購物車</button></div>
+    <div class="product-item"><img src="images/img7.jpg" alt="商品5"><button>加入購物車</button></div>
+    <div class="product-item"><img src="images/img8.jpg" alt="商品6"><button>加入購物車</button></div>
+    <div class="product-item"><img src="images/img9.jpg" alt="商品7"><button>加入購物車</button></div>
+    <div class="product-item"><img src="images/img10.jpg" alt="商品8"><button>加入購物車</button></div>
+    <div class="product-item"><img src="images/img11.jpg" alt="商品9"><button>加入購物車</button></div>
+    <div class="product-item"><img src="images/img12.jpg" alt="商品10"><button>加入購物車</button></div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-left">配送方式</div>
+  <div class="footer-right">退換貨說明</div>
+</footer>
+
+<script>
+const track = document.querySelector('.carousel-track');
+const slides = Array.from(track.children);
+const dots = document.querySelectorAll('.dot');
+const prevBtn = document.querySelector('.arrow-left');
+const nextBtn = document.querySelector('.arrow-right');
+let index = 0;
+const totalSlides = slides.length;
+
+function updateCarousel() {
+  track.style.transform = `translateX(-${index * 100}%)`;
+  dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+}
+
+function nextSlide() { index = (index + 1) % totalSlides; updateCarousel(); }
+function prevSlide() { index = (index - 1 + totalSlides) % totalSlides; updateCarousel(); }
+
+nextBtn.addEventListener('click', nextSlide);
+prevBtn.addEventListener('click', prevSlide);
+
+dots.forEach((dot,i)=>{dot.addEventListener('click',()=>{index=i; updateCarousel();});});
+
+// 自動輪播
+setInterval(nextSlide, 3000);
+</script>
+</body>
+</html>
