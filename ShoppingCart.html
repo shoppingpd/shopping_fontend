@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>購物車｜男裝/女裝/兒童</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1 style="margin:8px 0 12px">購物車</h1>
+
+    <div class="layout">
+      <!-- 左：清單 -->
+      <section class="panel card">
+        <div class="toolbar">
+          <label><input type="checkbox" id="checkAll"> 全選</label>
+          <div class="spacer"></div>
+          <button class="link" id="delSelected">刪除所選</button>
+        </div>
+        <div id="shops"></div>
+      </section>
+
+      <!-- 右：摘要 -->
+      <aside class="summary card">
+        <h3>訂單摘要</h3>
+        <div class="kv"><div class="k">已選件數</div><div id="selCount">0</div></div>
+        <div class="kv"><div class="k">小計</div><div id="sumSub">$0.00</div></div>
+        <div class="kv"><div class="k">運費</div><div id="sumShip">$0.00</div></div>
+        <div class="kv"><div class="k">稅額</div><div id="sumTax">$0.00</div></div>
+        <div class="kv"><div class="k total">合計</div><div class="total" id="sumTotal">$0.00</div></div>
+        <button class="btn" id="btnCheckout" disabled>去結帳</button>
+
+        <div class="promo">
+          <div class="muted" style="margin-bottom:6px">優惠碼</div>
+          <input id="promoInput" placeholder="輸入優惠碼（SAVE100 或 SAVE10）" />
+          <button class="btn apply" id="applyPromo">套用</button>
+          <div id="promoMsg" class="muted" style="margin-top:6px"></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script src="js/cart.js" defer></script>
+</body>
+</html>
