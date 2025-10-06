@@ -3,40 +3,67 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FE TEST</title>
+  <title>商品頁面</title>
   <link rel="stylesheet" href="/cssProductDetails.css" />
 </head>
 <body>
   <div class="layout">
-    <!-- 上方區塊 -->
-    <header class="header">
-      <h1>功能區 (20%)</h1>
-    </header>
-
-    <!-- 中間區塊 -->
-    <main class="main">
-      <aside class="left">Left留白 (20%)</aside>
-      <section class="center">
-        <!-- 中央上方 60% -->
-        <div class="center-top">
-          <div class="center-top-left">
-            <img src="product.jpg" alt="商品照片" class="product-image" />
+    <!-- 上方電商頁首區塊 -->
+      <header class="header">
+        <div class="top-header">
+          <div class="logo">LOGO</div>
+            <div class="actions">
+            <a href="#">購物車</a>
+            <a href="#">訂單查詢</a>
+            <a href="#">會員登入</a>
           </div>
-          <div class="center-top-right">
-            <h1 class="product-title">品名</h1>
+        </div>
+        <nav class="nav-bar">
+          <a href="#">女裝</a>
+          <a href="#">男裝</a>
+          <a href="#">童裝</a>
+          <a href="#">限時特價</a>
+          <input type="text" placeholder="搜尋...">
+        </nav>
+      </header>
+
+    <!-- 主區塊 -->
+    <main class="main">
+      <!-- 左側 (20%) -->
+      <aside class="left"></aside>
+
+      <!-- 中央區塊：左右分割 -->
+      <section class="center">
+        <!-- 中央左側 40%：商品圖片輪播 -->
+        <div class="center-left">
+          <div class="image-slider">
+            <button class="arrow left" onclick="prevImage()">&lt;</button>
+            <img id="product-image" src="product1.jpg" alt="商品圖片" />
+            <button class="arrow right" onclick="nextImage()">&gt;</button>
+          </div>
+        </div>
+
+        <!-- 中央右側 60%：再分上下 -->
+        <div class="center-right">
+          <!-- 上方 60%：商品選項 -->
+          <div class="center-right-top">
+            <!-- 品名 -->
+            <div class="field">
+              <h1>商品名稱</h1>
+            </div>
 
             <!-- 顏色 -->
-            <div class="option-group">
-              <h3>顏色:</h3>
+            <div class="field color-field">
+              <label>顏色:</label>
               <div class="color-options">
                 <label class="option-box" style="background-color: red;">
                   <input type="radio" name="color" value="紅色" />
                 </label>
-                <label class="option-box" style="background-color: blue;">
-                  <input type="radio" name="color" value="藍色" />
-                </label>
                 <label class="option-box" style="background-color: green;">
                   <input type="radio" name="color" value="綠色" />
+                </label>
+                <label class="option-box" style="background-color: blue;">
+                  <input type="radio" name="color" value="藍色" />
                 </label>
                 <label class="option-box" style="background-color: black;">
                   <input type="radio" name="color" value="黑色" />
@@ -44,76 +71,88 @@
                 <label class="option-box" style="background-color: white; border: 1px solid #000;">
                   <input type="radio" name="color" value="白色" />
                 </label>
+                <label class="option-box" style="background-color: darkgreen;">
+                  <input type="radio" name="color" value="深綠色" />
+                </label>
               </div>
             </div>
 
             <!-- 尺寸 -->
-            <div class="option-group">
-              <h3>尺寸:</h3>
+            <div class="field size-field">
+              <label>尺寸:</label>
               <div class="size-options">
-                <label class="option-box text-option">
-                  <input type="radio" name="size" value="XS" /> <span>XS</span>
-                </label>
-                <label class="option-box text-option">
-                  <input type="radio" name="size" value="S" /> <span>S</span>
-                </label>
-                <label class="option-box text-option">
-                  <input type="radio" name="size" value="M" /> <span>M</span>
-                </label>
-                <label class="option-box text-option">
-                  <input type="radio" name="size" value="L" /> <span>L</span>
-                </label>
-                <label class="option-box text-option">
-                  <input type="radio" name="size" value="XL" /> <span>XL</span>
-                </label>
+                <label class="option-box text-option"><input type="radio" name="size" value="XS" /> XS</label>
+                <label class="option-box text-option"><input type="radio" name="size" value="S" /> S</label>
+                <label class="option-box text-option"><input type="radio" name="size" value="M" /> M</label>
+                <label class="option-box text-option"><input type="radio" name="size" value="L" /> L</label>
+                <label class="option-box text-option"><input type="radio" name="size" value="XL" /> XL</label>
               </div>
             </div>
 
             <!-- 數量 -->
-            <div class="option-group quantity-group">
-              <h3>數量:</h3>
+            <div class="field quantity-field">
+              <label>數量:</label>
               <div class="quantity-control">
-                <button class="qty-btn" onclick="decreaseQty()">-</button>
+                <button type="button" class="qty-btn" onclick="decreaseQty()">-</button>
                 <input type="number" id="quantity" value="0" min="0" readonly />
-                <button class="qty-btn" onclick="increaseQty()">+</button>
+                <button type="button" class="qty-btn" onclick="increaseQty()">+</button>
               </div>
             </div>
 
             <!-- 選擇結果提示 -->
-            <div id="selection-summary">已選：尚未選擇</div>
-
-            <!-- 按鈕 -->
-            <div class="action-buttons">
-              <button class="oval-btn">加入購物車</button>
-              <button class="oval-btn">直接結帳</button>
+            <div class="selection-row">
+              <div id="selection-summary">已選：尚未選擇</div>
+              <!-- 操作按鈕 -->
+              <div class="action-buttons">
+                <button class="oval-btn">加入購物車</button>
+                <button class="oval-btn">直接結帳</button>
+              </div>
             </div>
+
+          <!-- 下方 40%：商品詳細說明 -->
+          <div class="center-right-bottom">
+            <h2>商品詳細說明 (40%)</h2>
+            <p>這裡可以放商品描述、材質、尺寸說明等內容。</p>
           </div>
         </div>
-
-        <!-- 中央下方 40% -->
-        <div class="center-bottom">
-          <h1>商品詳細說明 (40%)</h1>
-        </div>
       </section>
-      <aside class="right">Right留白 (20%)</aside>
+
+      <!-- 右側 (20%) -->
+      <aside class="right"></aside>
     </main>
 
-    <!-- 下方區塊 -->
-    <footer class="footer">
-      <h1>官方資訊 (10%)</h1>
+    <!-- 下方官方資訊 (10%) -->
+    <footer>
+      <div class="footer-left">配送方式</div>
+      <div class="footer-right">退換貨說明</div>
     </footer>
   </div>
 
   <script>
-    function updateSelectionSummary() {
-        const color = document.querySelector('input[name="color"]:checked')?.value || '未選擇顏色';
-        const size = document.querySelector('input[name="size"]:checked')?.value || '未選擇尺寸';
-        const quantity = document.getElementById("quantity")?.value || '0';
+    const images = Array.from({ length: 13 }, (_, i) => `hw5/images/img${i + 1}.jpg`);
+    let currentIndex = 0;
 
-        const summary = `已選：<span class="selected-color">${color}</span> / ${size} / 數量：${quantity}`;
-        document.getElementById("selection-summary").innerHTML = summary;
+    function updateImage() {
+      document.getElementById("product-image").src = images[currentIndex];
     }
 
+    function prevImage() {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      updateImage();
+    }
+
+    function nextImage() {
+      currentIndex = (currentIndex + 1) % images.length;
+      updateImage();
+    }
+
+    function updateSelectionSummary() {
+      const color = document.querySelector('input[name="color"]:checked')?.value || '未選擇顏色';
+      const size = document.querySelector('input[name="size"]:checked')?.value || '未選擇尺寸';
+      const quantity = document.getElementById("quantity")?.value || '0';
+      const summary = `已選：${color} / ${size} / 數量：${quantity}`;
+      document.getElementById("selection-summary").textContent = summary;
+    }
 
     document.querySelectorAll('input[name="color"], input[name="size"]').forEach(input => {
       input.addEventListener('change', updateSelectionSummary);
@@ -121,19 +160,17 @@
 
     function increaseQty() {
       const qtyInput = document.getElementById("quantity");
-      let current = parseInt(qtyInput.value, 10);
-      qtyInput.value = current + 1;
+      qtyInput.value = parseInt(qtyInput.value, 10) + 1;
       updateSelectionSummary();
     }
 
     function decreaseQty() {
       const qtyInput = document.getElementById("quantity");
-      let current = parseInt(qtyInput.value, 10);
-      if (current > 0) {
-        qtyInput.value = current - 1;
-        updateSelectionSummary();
-      }
+      qtyInput.value = Math.max(0, parseInt(qtyInput.value, 10) - 1);
+      updateSelectionSummary();
     }
+
+    updateImage();
   </script>
 </body>
 </html>
