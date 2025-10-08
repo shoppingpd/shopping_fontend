@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>精美電商首頁</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+</head>
+<body>
+
+<header>
+  <div class="top-header">
+    <div class="logo">LOGO</div>
+    <div class="actions">
+      <button>購物車</button>
+      <button>登入/註冊</button>
+    </div>
+  </div>
+  <nav class="nav-bar">
+    <button>女裝</button>
+    <button>男裝</button>
+    <button>童裝</button>
+    <button>限時特價</button>
+    <input type="text" placeholder="搜尋...">
+  </nav>
+</header>
+
+<main>
+    <div class="container" id="login-container">
+        <h1>會員登入</h1>
+        <form id="login-form">
+          <div class="form-group">
+            <label for="login-id">電子郵件或手機號碼</label>
+            <input type="text" id="login-id" placeholder="請輸入電子郵件或手機號碼" required>
+          </div>
+          <div class="form-group">
+            <label for="login-password">密碼</label>
+            <input type="password" id="login-password" placeholder="請輸入密碼" required>
+            <div id="login-error" class="error"></div>
+          </div>
+      
+          <!-- 記住帳號與登入按鈕同列，間隔 10% -->
+          <div class="login-actions">
+            <label><input type="checkbox" id="remember"> 記住帳號</label>
+            <button type="submit">登入</button>
+          </div>
+      
+          <a href="#" class="forgot-password">忘記密碼？</a>
+        </form>
+        <a href="#" class="toggle-link" id="switch-to-register">還沒有帳號？註冊</a>
+      </div>
+      
+  
+      <!-- 註冊 -->
+      <div class="container" id="register-container" style="display: none;">
+        <h1>註冊帳號</h1>
+        <form id="register-form">
+          <div class="form-group">
+            <label for="full-name">姓名</label>
+            <input type="text" id="full-name" placeholder="請輸入姓名" required>
+          </div>
+          <div class="form-group">
+            <label for="phone">手機號碼</label>
+            <input type="tel" id="phone" placeholder="請輸入手機號碼" required pattern="09\d{8}">
+          </div>
+          <div class="form-group">
+            <label for="new-email">電子郵件</label>
+            <input type="email" id="new-email" placeholder="請輸入電子郵件" required>
+          </div>
+          <div class="form-group">
+            <label for="new-password">密碼</label>
+            <input type="password" id="new-password" placeholder="請輸入密碼" required>
+            <div class="password-tip">密碼需包含英文與數字，至少 6 碼</div>
+            <div id="password-strength" class="password-strength"></div>
+          </div>
+          <div class="form-group">
+            <label for="confirm-password">確認密碼</label>
+            <input type="password" id="confirm-password" placeholder="請再次輸入密碼" required>
+          </div>
+          <button type="submit">註冊</button>
+        </form>
+        <a href="#" class="toggle-link" id="switch-to-login">已經有帳號？登入</a>
+      </div>
+  
+      <!-- 重設密碼 -->
+      <div class="container" id="reset-container" style="display: none;">
+        <h1>重設密碼</h1>
+        <form id="reset-form">
+          <div class="form-group">
+            <label for="reset-id">電子郵件或手機號碼</label>
+            <input type="text" id="reset-id" placeholder="請輸入註冊帳號" required>
+          </div>
+          <div class="form-group">
+            <label for="reset-password">新密碼</label>
+            <input type="password" id="reset-password" placeholder="輸入新密碼" required>
+            <div class="password-tip">密碼需包含英文與數字，至少 6 碼</div>
+            <div id="reset-password-strength" class="password-strength"></div>
+          </div>
+          <div class="form-group">
+            <label for="reset-confirm">確認新密碼</label>
+            <input type="password" id="reset-confirm" placeholder="請再次輸入新密碼" required>
+          </div>
+          <button type="submit">重設密碼</button>
+        </form>
+        <a href="#" class="toggle-link" id="back-to-login">返回登入</a>
+      </div>
+    </div>
+  </main>
+  
+
+
+<footer>
+  <button>配送方式</button>
+  <button>退換貨說明</button>
+</footer>
+
+</body>
+</html>
