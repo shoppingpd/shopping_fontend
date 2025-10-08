@@ -1,0 +1,62 @@
+// script1.js
+
+document.addEventListener('DOMContentLoaded', () => {
+  const showRegisterForm = document.getElementById('show-register-form');
+  const showLoginForm = document.getElementById('show-login-form');
+  const registerForm = document.getElementById('register-form');
+  const loginForm = document.getElementById('login-form');
+  const passwordInput = document.getElementById('register-password');
+  const confirmPasswordInput = document.getElementById('register-confirm-password');
+  const passwordStrength = document.getElementById('password-strength');
+
+  showRegisterForm.addEventListener('click', () => {
+    loginForm.classList.add('hidden');
+    registerForm.classList.remove('hidden');
+  });
+
+  showLoginForm.addEventListener('click', () => {
+    registerForm.classList.add('hidden');
+    loginForm.classList.remove('hidden');
+  });
+
+  passwordInput.addEventListener('input', () => {
+    const strength = checkPasswordStrength(passwordInput.value);
+    passwordStrength.textContent = `密碼強度：${strength}`;
+  });
+
+  confirmPasswordInput.addEventListener('input', () => {
+    if (confirmPasswordInput.value !== passwordInput.value) {
+      confirmPasswordInput.setCustomValidity('密碼不一致');
+    } else {
+      confirmPasswordInput.setCustomValidity('');
+    }
+  });
+
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    alert('登入成功');
+  });
+
+  registerForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    alert('註冊成功');
+  });
+});
+
+function checkPasswordStrength(password) {
+  const lengthCriteria = password.length >= 8;
+  const numberCriteria = /\d/.test(password);
+  const lowercaseCriteria = /[a-z]/.test(password);
+  const uppercaseCriteria = /[A-Z]/.test(password);
+  const specialCharCriteria = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+  let strength = '弱';
+
+  if (lengthCriteria && numberCriteria && lowercaseCriteria && uppercaseCriteria && specialCharCriteria) {
+    strength = '強';
+  } else if (lengthCriteria && (numberCriteria || lowercaseCriteria || uppercaseCriteria || specialCharCriteria)) {
+    strength = '中';
+  }
+
+  return strength;
+}
