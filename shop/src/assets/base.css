@@ -1,70 +1,51 @@
-/* color palette from <https://github.com/vuejs/theme> */
+/* ======================================================
+   🎨 Atticus 專屬配色主題：象牙白基底
+   說明：
+   - 主背景色：象牙白 (#FFF8E7)
+   - 主色調：深青藍 (#3A6EA5)，用於按鈕、標題、互動元素
+   - 次色調：淡米色 (#FFEBC2)，用於輕背景、卡片
+   - hover/互動顏色：鮮藍 (#2F80ED)
+   - 文字顏色：深灰 (#333333) 保持可讀性
+====================================================== */
+
+/* ===== 基礎顏色設定 ===== */
 :root {
-  --vt-c-white: #ffffff;
-  --vt-c-white-soft: #f8f8f8;
-  --vt-c-white-mute: #f2f2f2;
+  /* ----- 背景色 ----- */
+  --c-background: #FFF8E7;      /* 主背景：象牙白 */
+  --c-background-soft: #FFF2D9; /* 輕微深象牙色，用於次區塊背景 */
+  --c-background-mute: #FFEBC2; /* 卡片或分隔背景 */
 
-  --vt-c-black: #181818;
-  --vt-c-black-soft: #222222;
-  --vt-c-black-mute: #282828;
+  /* ----- 邊框顏色 ----- */
+  --c-border: rgba(0, 0, 0, 0.1);       /* 一般邊框 */
+  --c-border-hover: rgba(0, 0, 0, 0.25); /* hover / focus 狀態邊框 */
 
-  --vt-c-indigo: #2c3e50;
+  /* ----- 文字顏色 ----- */
+  --c-text: #333333;             /* 主要文字色 */
+  --c-heading: #683a25;          /* 標題文字色，深青藍 */
 
-  --vt-c-divider-light-1: rgba(60, 60, 60, 0.29);
-  --vt-c-divider-light-2: rgba(60, 60, 60, 0.12);
-  --vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
-  --vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
-
-  --vt-c-text-light-1: var(--vt-c-indigo);
-  --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
-  --vt-c-text-dark-1: var(--vt-c-white);
-  --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+  /* ----- 主題色 ----- */
+  --c-primary: #94390f;          /* 主色：深青藍，用於按鈕/標題/強調元素 */
+  --c-accent: #FFEBC2;           /* 次色：淡米色，用於背景或輕微裝飾 */
+  --c-hover: #ed842f;            /* hover / 互動顏色 */
 }
 
-/* semantic color variables for this project */
-:root {
-  --color-background: var(--vt-c-white);
-  --color-background-soft: var(--vt-c-white-soft);
-  --color-background-mute: var(--vt-c-white-mute);
 
-  --color-border: var(--vt-c-divider-light-2);
-  --color-border-hover: var(--vt-c-divider-light-1);
 
-  --color-heading: var(--vt-c-text-light-1);
-  --color-text: var(--vt-c-text-light-1);
-
-  --section-gap: 160px;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: var(--vt-c-black);
-    --color-background-soft: var(--vt-c-black-soft);
-    --color-background-mute: var(--vt-c-black-mute);
-
-    --color-border: var(--vt-c-divider-dark-2);
-    --color-border-hover: var(--vt-c-divider-dark-1);
-
-    --color-heading: var(--vt-c-text-dark-1);
-    --color-text: var(--vt-c-text-dark-2);
-  }
-}
-
+/* ===== 全域重置 ===== */
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
-  margin: 0;
-  font-weight: normal;
+  box-sizing: border-box;       /* box-sizing 重置 */
+  margin: 0;                    /* 全域 margin 清除 */
+  font-weight: normal;           /* 統一字重 */
 }
 
+/* ===== 主體樣式 ===== */
 body {
   min-height: 100vh;
-  color: var(--color-text);
-  background: var(--color-background);
-  transition:
-    color 0.5s,
-    background-color 0.5s;
+  color: var(--c-text);                      /* 文字顏色 */
+  background: var(--c-background);           /* 背景色 */
+  transition: color 0.5s, background-color 0.5s;
   line-height: 1.6;
   font-family:
     Inter,
@@ -84,3 +65,50 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* ===== 連結樣式 ===== */
+a {
+  color: var(--c-primary);                      /* 主色 */
+  text-decoration: none;
+  transition: color 0.3s, background-color 0.3s;
+  padding: 3px;
+}
+
+@media (hover: hover) {
+  a:hover {
+    color: var(--c-hover);                      /* hover 顏色 */
+    background-color: rgba(237, 139, 47, 0.08); /* hover 背景微透明 */
+    border-radius: 4px;
+  }
+}
+
+/* ===== App 容器樣式 ===== */
+#app {
+  /* max-width: 1280px; */
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* ===== 桌面大螢幕樣式 ===== */
+@media (min-width: 1024px) {
+  body {
+    display: flex;
+    place-items: center;
+  }
+
+  #app {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 2rem;
+  }
+}
+
+/* ======================================================
+   💻 使用說明：
+   - 主背景：var(--c-background)
+   - 卡片 / 次背景：var(--c-background-mute / --c-background-soft)
+   - 標題文字：var(--c-heading)
+   - 內文文字：var(--c-text)
+   - 主按鈕 / 重要元素：var(--c-primary)
+   - hover / 互動：var(--c-hover)
+====================================================== */
