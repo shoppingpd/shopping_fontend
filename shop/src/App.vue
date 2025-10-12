@@ -31,7 +31,16 @@
     </div>
   </footer>
 </template>
-
+<script>
+import { onMounted } from 'vue'
+export default {
+  setup() {
+    onMounted(() => {
+      document.title = 'SHOPPING BUY'
+    })
+  },
+}
+</script>
 <style scoped>
 /* ===== 全頁預設 ===== */
 html,
