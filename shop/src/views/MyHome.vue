@@ -124,7 +124,7 @@ export default {
     const currentPage = ref(1)
     async function loadProducts() {
       try {
-        const res = await fetch(`http://localhost:8080/products/page/${currentPage.value}`)
+        const res = await fetch(`http://localhost:8080/products/page/${currentPage.value - 1}`)
         if (!res.ok) throw new Error('伺服器回應錯誤')
         products.value = await res.json()
         console.log(products.value)
@@ -136,7 +136,7 @@ export default {
       try {
         const res = await fetch('http://localhost:8080/products/maxPage')
         if (!res.ok) throw new Error('伺服器回應錯誤')
-        totalPages.value = (await res.json()) - 1
+        totalPages.value = await res.json()
         console.log(totalPages.value)
       } catch (err) {
         console.error('讀取失敗：', err)
