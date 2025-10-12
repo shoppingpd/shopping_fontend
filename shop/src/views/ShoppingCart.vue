@@ -360,15 +360,15 @@ const checkout = () => {
 
 /* ===== 使用系統顏色變數 ===== */
 :root {
-  --c-background: Canvas;          /* 主背景：依系統顏色 */
-  --c-card: Canvas;                /* 卡片背景 */
-  --c-text: CanvasText;            /* 文字 */
-  --c-muted: GrayText;             /* 次文字 / muted */
-  --c-border: CanvasText;          /* 邊框 */
-  --c-hover: Highlight;            /* hover / 選取背景 */
-  --c-hover-text: HighlightText;   /* hover 文字顏色 */
-  --radius: 12px;                  /* 圓角統一 */
-  --shadow: none;                  /* 系統配色通常不加陰影 */
+  --c-background: Canvas; /* 主背景：依系統顏色 */
+  --c-card: Canvas; /* 卡片背景 */
+  --c-text: CanvasText; /* 文字 */
+  --c-muted: GrayText; /* 次文字 / muted */
+  --c-border: CanvasText; /* 邊框 */
+  --c-hover: Highlight; /* hover / 選取背景 */
+  --c-hover-text: HighlightText; /* hover 文字顏色 */
+  --radius: 12px; /* 圓角統一 */
+  --shadow: none; /* 系統配色通常不加陰影 */
 }
 
 /* ===== 全域重置 ===== */
@@ -408,8 +408,8 @@ body {
 
 /* ===== 容器設定 ===== */
 .container {
-
   margin: 0 auto;
+  padding: 0 2rem;
 }
 .layout {
   display: grid;
@@ -631,5 +631,4 @@ body {
 .spacer {
   flex: 1;
 }
-
 </style>

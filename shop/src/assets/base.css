@@ -11,41 +11,41 @@
 /* ===== 基礎顏色設定 ===== */
 :root {
   /* ----- 背景色 ----- */
-  --c-background: #FFF8E7;      /* 主背景：象牙白 */
-  --c-background-soft: #FFF2D9; /* 輕微深象牙色，用於次區塊背景 */
-  --c-background-mute: #FFEBC2; /* 卡片或分隔背景 */
+  --c-background: #fff8e7; /* 主背景：象牙白 */
+  --c-background-soft: #fff2d9; /* 輕微深象牙色，用於次區塊背景 */
+  --c-background-mute: #ffebc2; /* 卡片或分隔背景 */
 
   /* ----- 邊框顏色 ----- */
-  --c-border: rgba(0, 0, 0, 0.1);       /* 一般邊框 */
+  --c-border: rgba(0, 0, 0, 0.1); /* 一般邊框 */
   --c-border-hover: rgba(0, 0, 0, 0.25); /* hover / focus 狀態邊框 */
 
   /* ----- 文字顏色 ----- */
-  --c-text: #333333;             /* 主要文字色 */
-  --c-heading: #683a25;          /* 標題文字色，深青藍 */
+  --c-text: #333333; /* 主要文字色 */
+  --c-heading: #683a25; /* 標題文字色，深青藍 */
 
   /* ----- 主題色 ----- */
-  --c-primary: #94390f;          /* 主色：深青藍，用於按鈕/標題/強調元素 */
-  --c-accent: #FFEBC2;           /* 次色：淡米色，用於背景或輕微裝飾 */
-  --c-hover: #ed842f;            /* hover / 互動顏色 */
+  --c-primary: #94390f; /* 主色：深青藍，用於按鈕/標題/強調元素 */
+  --c-accent: #ffebc2; /* 次色：淡米色，用於背景或輕微裝飾 */
+  --c-hover: #ed842f; /* hover / 互動顏色 */
 }
-
-
 
 /* ===== 全域重置 ===== */
 *,
 *::before,
 *::after {
-  box-sizing: border-box;       /* box-sizing 重置 */
-  margin: 0;                    /* 全域 margin 清除 */
-  font-weight: normal;           /* 統一字重 */
+  box-sizing: border-box; /* box-sizing 重置 */
+  margin: 0; /* 全域 margin 清除 */
+  font-weight: normal; /* 統一字重 */
 }
 
 /* ===== 主體樣式 ===== */
 body {
   min-height: 100vh;
-  color: var(--c-text);                      /* 文字顏色 */
-  background: var(--c-background);           /* 背景色 */
-  transition: color 0.5s, background-color 0.5s;
+  color: var(--c-text); /* 文字顏色 */
+  background: var(--c-background); /* 背景色 */
+  transition:
+    color 0.5s,
+    background-color 0.5s;
   line-height: 1.6;
   font-family:
     Inter,
@@ -68,15 +68,17 @@ body {
 
 /* ===== 連結樣式 ===== */
 a {
-  color: var(--c-primary);                      /* 主色 */
+  color: var(--c-primary); /* 主色 */
   text-decoration: none;
-  transition: color 0.3s, background-color 0.3s;
+  transition:
+    color 0.3s,
+    background-color 0.3s;
   padding: 3px;
 }
 
 @media (hover: hover) {
   a:hover {
-    color: var(--c-hover);                      /* hover 顏色 */
+    color: var(--c-hover); /* hover 顏色 */
     background-color: rgba(237, 139, 47, 0.08); /* hover 背景微透明 */
     border-radius: 4px;
   }
@@ -86,7 +88,6 @@ a {
 #app {
   /* max-width: 1280px; */
   margin: 0 auto;
-  padding: 2rem;
 }
 
 /* ===== 桌面大螢幕樣式 ===== */
@@ -99,7 +100,6 @@ a {
   #app {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
   }
 }
 
