@@ -1,0 +1,191 @@
+:root{
+  --brand:#ff6b9d;
+  --brand-weak:#ffe1ec;
+  --text:#222;
+  --muted:#777;
+  --border:#eaeaea;
+  --bg:#fafafa;
+  --card:#fff;
+  --radius:12px;
+  --shadow:0 8px 20px rgba(0,0,0,.06);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: Inter, "Noto Sans TC", "微軟正黑體", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  color:var(--text);
+  background:linear-gradient(#fff,#f6f6f6);
+}
+
+.container{
+  width: min(1180px, 90%);
+  margin: 24px auto 48px;
+}
+
+.page-header h1{ margin:0 0 4px; font-size:28px; }
+.subtitle{ margin:0; color:var(--muted); }
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:16px;
+  margin-top:16px;
+}
+
+/* Toolbar */
+.toolbar .row{
+  display:grid;
+  grid-template-columns: repeat(4, minmax(180px, 1fr));
+  gap:16px;
+}
+.toolbar .actions{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-top:12px;
+}
+.field{ display:flex; flex-direction:column; gap:6px; }
+.field label{ font-size:12px; color:var(--muted); }
+.field input, .field select{
+  padding:10px 12px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  outline:none;
+}
+.field input:focus, .field select:focus{ border-color:var(--brand); box-shadow:0 0 0 3px var(--brand-weak); }
+
+/* Buttons */
+.btn{
+  padding:10px 14px;
+  border-radius:10px;
+  background:#f1f1f1;
+  border:1px solid var(--border);
+  cursor:pointer;
+}
+.btn:hover{ filter:brightness(0.97); }
+.btn.primary{
+  background:var(--brand);
+  color:#fff;
+  border-color:#ff5e96;
+}
+.btn.ghost{
+  background:transparent;
+  border-color:var(--border);
+}
+
+/* Stats */
+.stats{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:16px;
+}
+.stat{
+  border:1px dashed var(--border);
+  border-radius:10px;
+  padding:12px;
+}
+.stat .label{ color:var(--muted); font-size:12px;}
+.stat .value{ font-size:22px; margin-top:6px; font-variant-numeric: tabular-nums; }
+
+/* List head/body */
+.list-head, .row.item{
+  display:grid;
+  grid-template-columns: 2.2fr 1.2fr 1.1fr 0.9fr 1.1fr 1.1fr 1fr;
+  gap:12px;
+  align-items:center;
+}
+.list-head{
+  padding:8px 12px;
+  border-bottom:1px solid var(--border);
+  color:#555;
+  font-size:13px;
+}
+.list-body .row.item{
+  padding:12px;
+  border-bottom:1px solid var(--border);
+}
+.col .badge{
+  padding:4px 8px;
+  border-radius:999px;
+  font-size:12px;
+  border:1px solid var(--border);
+}
+.badge.PENDING{ background:#fff7e6; border-color:#ffd591; }
+.badge.SHIPPED{ background:#e6f4ff; border-color:#91caff; }
+.badge.COMPLETED{ background:#f6ffed; border-color:#b7eb8f; }
+.badge.CANCELLED{ background:#fff1f0; border-color:#ffa39e; }
+
+.link{
+  background:none;
+  border:none;
+  color:var(--brand);
+  cursor:pointer;
+  padding:0;
+}
+.link-expand{ margin-right:6px; }
+
+.mono{ font-variant-numeric: tabular-nums; }
+
+/* 明細區 */
+.detail{
+  display:none;
+  background:#fcfcfc;
+  border-bottom:1px solid var(--border);
+}
+.detail.open{ display:block; }
+.detail-inner{ padding:12px 12px 16px 44px; }
+.detail-table{
+  width:100%;
+  border-collapse: collapse;
+  margin-bottom:10px;
+}
+.detail-table th, .detail-table td{
+  border-bottom:1px dashed var(--border);
+  text-align:left;
+  padding:8px 10px;
+  font-size:14px;
+}
+.detail-table th{ color:#555; }
+
+.detail-meta{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(240px, 1fr));
+  gap:8px 24px;
+  color:#444;
+}
+
+/* Pagination */
+.pagination{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 12px 0;
+}
+.pagination .spacer{ flex:1; }
+.page-size select{
+  padding:6px 8px;
+  border:1px solid var(--border);
+  border-radius:8px;
+}
+
+/* RWD */
+@media (max-width: 900px){
+  .toolbar .row{ grid-template-columns: 1fr 1fr; }
+  .list-head, .row.item{
+    grid-template-columns: 1.7fr 1.1fr 1fr .9fr 1fr .9fr .9fr;
+  }
+}
+@media (max-width: 680px){
+  .toolbar .row{ grid-template-columns: 1fr; }
+  .list-head{ display:none; }
+  .row.item{
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap:6px 12px;
+  }
+  .col.col-items, .col.col-payment, .col.col-action{ display:none; }
+  .detail-inner{ padding-left:16px; }
+}
