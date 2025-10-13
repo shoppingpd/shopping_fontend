@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Order History｜訂單查詢</title>
+  <link rel="stylesheet" href="css/History.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="page-header">
+      <h1>Order History</h1>
+      <p class="subtitle">訂單查詢 / Order Lookup</p>
+    </header>
+
+    <!-- 查詢工具列（未來可對接資料庫查詢條件） -->
+    <section class="toolbar card">
+      <form id="searchForm">
+        <div class="row">
+          <div class="field">
+            <label for="qOrderNo">訂單編號</label>
+            <input id="qOrderNo" name="orderNo" type="text" placeholder="例如：ORD20251013001" autocomplete="off" />
+          </div>
+
+          <div class="field">
+            <label for="qDateStart">起始日期</label>
+            <input id="qDateStart" name="dateStart" type="date" />
+          </div>
+
+          <div class="field">
+            <label for="qDateEnd">結束日期</label>
+            <input id="qDateEnd" name="dateEnd" type="date" />
+          </div>
+
+          <div class="field">
+            <label for="qStatus">狀態</label>
+            <select id="qStatus" name="status">
+              <option value="">全部</option>
+              <option value="PENDING">待出貨</option>
+              <option value="SHIPPED">已出貨</option>
+              <option value="COMPLETED">已完成</option>
+              <option value="CANCELLED">已取消</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row actions">
+          <button type="submit" class="btn primary">Search</button>
+          <button type="button" id="btnReset" class="btn">Reset</button>
+          <!-- ⚠️ 串資料庫說明：
+               之後改成呼叫後端 API（例如 /api/orders），把上面的條件帶進去。
+               目前先用 History.js 裡的假資料（MOCK_ORDERS）模擬。 -->
+        </div>
+      </form>
+    </section>
+
+    <!-- 統計區（可快速看到查詢結果摘要） -->
+    <section class="stats  card">
+      <div class="stat">
+        <div class="label">Results</div>
+        <div class="value" id="statCount">0</div>
+      </div>
+      <div class="stat">
+        <div class="label">Total Amount</div>
+        <div class="value" id="statAmount">$0</div>
+      </div>
+      <div class="stat">
+        <div class="label">Completed</div>
+        <div class="value" id="statCompleted">0</div>
+      </div>
+    </section>
+
+    <!-- 列表區 -->
+    <section class="list card">
+      <div class="list-head">
+        <div class="col col-no">訂單編號</div>
+        <div class="col col-date">日期</div>
+        <div class="col col-status">狀態</div>
+        <div class="col col-items">品項數</div>
+        <div class="col col-amount">金額</div>
+        <div class="col col-payment">付款方式</div>
+        <div class="col col-action">操作</div>
+      </div>
+      <div id="orderList" class="list-body">
+        <!-- 由 History.js 動態插入 rows -->
+      </div>
+
+      <!-- 分頁 -->
+      <div class="pagination">
+        <button id="prevPage" class="btn" disabled>上一頁</button>
+        <span id="pageInfo">1 / 1</span>
+        <button id="nextPage" class="btn" disabled>下一頁</button>
+        <div class="spacer"></div>
+        <label class="page-size">
+          每頁
+          <select id="pageSize">
+            <option>5</option>
+            <option selected>10</option>
+            <option>20</option>
+            <option>50</option>
+          </select>
+          筆
+        </label>
+      </div>
+    </section>
+  </div>
+
+  <template id="orderRowTpl">
+    <div class="row item">
+      <div class="col col-no">
+        <button class="link link-expand" title="展開 / 收合明細">▸</button>
+        <span class="mono order-no"></span>
+      </div>
+      <div class="col col-date order-date"></div>
+      <div class="col col-status"><span class="badge"></span></div>
+      <div class="col col-items order-items"></div>
+      <div class="col col-amount order-amount mono"></div>
+      <div class="col col-payment order-payment"></div>
+      <div class="col col-action">
+        <button class="btn ghost btn-view">View</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <table class="detail-table">
+          <thead>
+            <tr>
+              <th>品名</th>
+              <th>顏色/尺寸</th>
+              <th>數量</th>
+              <th>單價</th>
+              <th>小計</th>
+            </tr>
+          </thead>
+          <tbody class="detail-body">
+            <!-- 動態插入 -->
+          </tbody>
+        </table>
+        <div class="detail-meta">
+          <div><strong>收件人：</strong><span class="ship-name"></span></div>
+          <div><strong>地址：</strong><span class="ship-address"></span></div>
+          <div><strong>電話：</strong><span class="ship-phone"></span></div>
+          <div><strong>Email：</strong><span class="ship-email"></span></div>
+          <div><strong>備註：</strong><span class="note"></span></div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <script src="js/History.js"></script>
+</body>
+</html>
