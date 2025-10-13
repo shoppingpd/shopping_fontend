@@ -349,26 +349,43 @@ const checkout = () => {
 </script>
 
 <style scoped>
+/* ======================================================
+   🎨 系統預設配色主題
+   說明：
+   - 全部顏色使用系統預設（不自訂顏色值）
+   - 文字、邊框、背景皆用 system colors
+   - 可以配合 OS 的淺色/深色模式自動切換
+   - 提升可讀性與無障礙設計
+====================================================== */
+
+/* ===== 使用系統顏色變數 ===== */
 :root {
-  --brand: #ff6b9d; /* 主色 */
-  --brand-weak: #ffe1ec; /* 淡主色（hover/背景） */
-  --text: #222;
-  --muted: #8a8a8a;
-  --border: #eaeaea;
-  --bg: #fafafa;
-  --card: #fff;
-  --radius: 12px;
-  --shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  --c-background: Canvas; /* 主背景：依系統顏色 */
+  --c-card: Canvas; /* 卡片背景 */
+  --c-text: CanvasText; /* 文字 */
+  --c-muted: GrayText; /* 次文字 / muted */
+  --c-border: CanvasText; /* 邊框 */
+  --c-hover: Highlight; /* hover / 選取背景 */
+  --c-hover-text: HighlightText; /* hover 文字顏色 */
+  --radius: 12px; /* 圓角統一 */
+  --shadow: none; /* 系統配色通常不加陰影 */
 }
-* {
+
+/* ===== 全域重置 ===== */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
+  margin: 0;
+  font-weight: normal;
 }
+
 html,
 body {
   height: 100%;
 }
+
 body {
-  margin: 0;
   font-family:
     Inter,
     system-ui,
@@ -380,14 +397,19 @@ body {
     'Noto Sans TC',
     '微軟正黑體',
     sans-serif;
-  color: var(--text);
-  background: linear-gradient(#fff, #f6f6f6);
+  color: var(--c-text);
+  background: var(--c-background);
+  line-height: 1.6;
+  font-size: 15px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+/* ===== 容器設定 ===== */
 .container {
-  max-width: 1180px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 0 2rem;
 }
 .layout {
   display: grid;
@@ -400,9 +422,10 @@ body {
   }
 }
 
+/* ===== 卡片樣式 ===== */
 .card {
-  background: var(--card);
-  border: 1px solid var(--border);
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
 }
@@ -410,7 +433,7 @@ body {
   margin-top: 14px;
 }
 
-/* ===== 左側：清單 ===== */
+/* ===== 左側清單 ===== */
 .panel {
   padding: 12px;
 }
@@ -419,17 +442,18 @@ body {
   align-items: center;
   gap: 12px;
   padding: 10px 12px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--c-border);
 }
 .toolbar .title {
   font-weight: 800;
 }
 
+/* ===== 店鋪區塊 ===== */
 .shop {
-  border: 1px solid var(--border);
-  border-radius: 12px;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
   overflow: hidden;
-  background: #fff;
+  background: var(--c-card);
 }
 .shop + .shop {
   margin-top: 14px;
@@ -439,22 +463,22 @@ body {
   align-items: center;
   gap: 10px;
   padding: 12px 14px;
-  background: #fff;
-  border-bottom: 1px solid var(--border);
   font-weight: 700;
+  background: var(--c-card);
+  border-bottom: 1px solid var(--c-border);
 }
 .shop__body {
   padding: 10px;
 }
 
-/* 表格型列 */
+/* ===== 商品列 ===== */
 .item {
   display: grid;
   grid-template-columns: 36px 96px 1fr 110px 160px 120px 90px;
   align-items: center;
   gap: 12px;
   padding: 12px;
-  border-bottom: 1px dashed var(--border);
+  border-bottom: 1px dashed var(--c-border);
 }
 .item:last-child {
   border-bottom: none;
@@ -462,9 +486,9 @@ body {
 .thumb {
   width: 96px;
   height: 96px;
-  border-radius: 10px;
+  border-radius: var(--radius);
   overflow: hidden;
-  border: 1px solid var(--border);
+  border: 1px solid var(--c-border);
 }
 .thumb img {
   width: 100%;
@@ -477,7 +501,7 @@ body {
 }
 .info .sku {
   font-size: 12px;
-  color: var(--muted);
+  color: var(--c-muted);
 }
 .price {
   font-weight: 700;
@@ -485,7 +509,7 @@ body {
 .stepper {
   display: inline-flex;
   align-items: center;
-  border: 1px solid var(--border);
+  border: 1px solid var(--c-border);
   border-radius: 10px;
   overflow: hidden;
 }
@@ -493,15 +517,15 @@ body {
   width: 32px;
   height: 34px;
   border: 0;
-  background: #fff;
+  background: var(--c-card);
   cursor: pointer;
 }
 .stepper input {
   width: 56px;
   height: 34px;
   border: 0;
-  border-left: 1px solid var(--border);
-  border-right: 1px solid var(--border);
+  border-left: 1px solid var(--c-border);
+  border-right: 1px solid var(--c-border);
   text-align: center;
 }
 .subtotal {
@@ -515,15 +539,16 @@ body {
 .link {
   background: none;
   border: 0;
-  color: var(--muted);
+  color: var(--c-muted);
   cursor: pointer;
   text-align: left;
 }
 .link:hover {
-  color: #d11;
+  color: var(--c-hover-text);
+  background: var(--c-hover);
 }
 
-/* 小螢幕：堆疊 */
+/* ===== 小螢幕響應 ===== */
 @media (max-width: 900px) {
   .item {
     grid-template-columns: 36px 96px 1fr;
@@ -537,7 +562,7 @@ body {
   }
 }
 
-/* ===== 右側：摘要 ===== */
+/* ===== 右側摘要 ===== */
 .summary {
   position: sticky;
   top: 16px;
@@ -550,13 +575,13 @@ body {
   display: flex;
   justify-content: space-between;
   padding: 10px 0;
-  border-bottom: 1px dashed var(--border);
+  border-bottom: 1px dashed var(--c-border);
 }
 .kv:last-child {
   border-bottom: none;
 }
 .kv .k {
-  color: var(--muted);
+  color: var(--c-muted);
 }
 .total {
   font-size: 18px;
@@ -566,9 +591,8 @@ body {
   width: 100%;
   padding: 12px 14px;
   border-radius: 10px;
-  border: 1px solid var(--brand);
-  background: var(--brand);
-  color: #fff;
+  border: 1px solid var(--c-text);
+  background: var(--c-card);
   font-weight: 800;
   cursor: pointer;
   margin-top: 14px;
@@ -578,30 +602,31 @@ body {
   cursor: not-allowed;
 }
 
+/* ===== 優惠碼區塊 ===== */
 .promo {
   margin-top: 12px;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--c-border);
   padding-top: 12px;
 }
 .promo input {
   width: 100%;
   height: 40px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--c-border);
   border-radius: 10px;
   padding: 0 12px;
 }
 .promo .apply {
   margin-top: 10px;
-  background: #fff;
-  color: var(--brand);
-  border-color: var(--brand);
+  border: 1px solid var(--c-text);
+  background: var(--c-card);
 }
 .promo .apply:hover {
-  background: var(--brand-weak);
+  background: var(--c-hover);
+  color: var(--c-hover-text);
 }
 
 .muted {
-  color: var(--muted);
+  color: var(--c-muted);
 }
 .spacer {
   flex: 1;
