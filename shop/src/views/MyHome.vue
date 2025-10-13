@@ -112,6 +112,7 @@
 
 <script>
 import { ref, computed, onMounted, watch } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default {
   setup() {
@@ -205,8 +206,16 @@ export default {
     const onTopHeaderClick = (text) => alert(`你點擊了「${text}」按鈕！`)
     const onCategoryClick = (text) => alert(`你選擇了「${text}」分類！`)
     const onFooterClick = (text) => alert(`你點擊了「${text}」按鈕！`)
-    const addToCart = (item) => alert(`${item.商品編號} 已加入購物車！`)
+    // const addToCart = (item) => alert(`${item.商品編號} 已加入購物車！`)
+    const router = useRouter()
 
+    const addToCart = (item) => {
+      // 跳到 productpage 並帶商品編號
+      router.push({
+        name: 'productpage',
+        query: { id: item.商品編號 }, // 用 query 傳比較方便，不用改 router 設定
+      })
+    }
     const categories = ['全部', '女裝', '男裝', '童裝', '限時特價']
     const searchQuery = ref('')
 

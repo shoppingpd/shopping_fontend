@@ -1,0 +1,284 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body, html { height: 100%; font-family: Arial, sans-serif; }
+body { display: flex; flex-direction: column; min-height: 100vh; }
+
+header { display: flex; flex-direction: column; background: #f8caca; }
+.top-header { background: #ff9999; display: flex; justify-content: center; align-items: center; position: relative; height: 15vh; }
+.logo { font-weight: bold; font-size: 2rem; }
+.actions { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); display: flex; gap: 15px; }
+.actions button { background: none; border: none; border-bottom: 2px solid transparent; font-size: 0.95rem; cursor: pointer; padding: 5px 0; transition: border-color 0.3s, color 0.3s; }
+.actions button:hover { border-bottom: 2px solid #fff; color: #fff; }
+
+.nav-bar { height: 6vh; background: #ffcccc; display: flex; justify-content: center; align-items: center; gap: 20px; }
+.nav-bar button { background: none; border: none; border-bottom: 2px solid transparent; padding: 5px 0; font-weight: bold; font-size: 1rem; cursor: pointer; transition: border-color 0.3s, color 0.3s; }
+.nav-bar button:hover { border-bottom: 2px solid #ff6666; color: #ff6666; }
+.nav-bar input { padding: 5px; border: 1px solid #ccc; border-radius: 5px; }
+
+main { display: flex; flex-direction: column; flex: 0 0 auto; }
+
+.banner { height: 70vh; position: relative; overflow: hidden; background: #cce5ff; }
+.carousel-track { display: flex; transition: transform 0.5s ease-in-out; height: 100%; }
+.carousel-track img { width: 100%; height: 100%; object-fit: cover; flex-shrink: 0; }
+
+.arrow { position: absolute; top: 50%; transform: translateY(-50%); font-size: 2rem; color: rgba(255,255,255,0.3); background-color: rgba(255,255,255,0.1); border: none; padding: 10px; cursor: pointer; z-index: 10; border-radius: 50%; transition: all 0.3s ease; }
+.arrow-left { left: 10px; }
+.arrow-right { right: 10px; }
+.arrow:hover { color: rgba(255,255,255,1); background-color: rgba(255,255,255,0.4); transform: translateY(-50%) scale(1.05); }
+
+/* -------------------- 輪播圓點 -------------------- */
+.dots {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5); 
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.dot.active {
+  background: rgba(255, 255, 255, 0.9); 
+}
+
+.section-title { text-align: center; font-size: 1.2rem; font-weight: bold; padding: 10px 0; background: #fdf5e6; color: #d35400; }
+
+.products-wrapper { position: relative; background: #d5f5d5; padding: 10px 2vw; margin-bottom: 2vh; display: flex; flex-direction: column; gap: 10px; }
+.product-row { position: relative; display: flex; overflow: hidden; align-items: stretch; }
+.products { display: flex; transition: transform 0.5s ease; gap: 10px; }
+
+.product-item { flex: 0 0 calc(33.333% - 10px); display: flex; flex-direction: column; border-radius: 5px; overflow: hidden; cursor: pointer; transition: transform 0.3s ease; background-color: #fff; }
+.product-item img { width: 100%; height: auto; object-fit: cover; }
+.product-item:hover { transform: scale(1.03); }
+
+.product-info { display: flex; justify-content: space-between; padding: 5px 8px; font-size: 0.85rem; color: #333; }
+.product-name { font-weight: 500; }
+.product-price { font-weight: 700; color: #c0392b; }
+
+.prod-arrow { position: absolute; top: 50%; transform: translateY(-50%); font-size: 1.2rem; color: rgba(255,255,255,0.7); background-color: rgba(0,0,0,0.2); border: none; padding: 5px; cursor: pointer; z-index: 10; border-radius: 50%; }
+.prod-left { left: 5px; }
+.prod-right { right: 5px; }
+
+footer { background: #ffcccc; display: flex; justify-content: space-around; align-items: center; padding: 15px 20%; font-size: 1rem; }
+footer button { background: none; border: none; border-bottom: 2px solid transparent; font-weight: bold; cursor: pointer; transition: border-color 0.3s, color 0.3s; }
+footer button:hover { border-bottom: 2px solid #caa400; color: #caa400; }
+
+/* -------------------- 表單區樣式 -------------------- */
+
+/* -------------------- 表單區樣式 -------------------- */
+
+main {
+    display: flex;
+    justify-content: center;   /* 水平置中 */
+    align-items: center;       /* 垂直置中 */
+    min-height: calc(100vh - 15vh - 6vh - 60px); /* 扣除 header/nav/footer */
+    background: #fdf6e3;
+    padding: 20px;
+    flex-direction: column;
+}
+
+.container {
+    background: #fff;
+    padding: 30px 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    width: 80%;             /* 左右各留 20% */
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* 表單標題 */
+.container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #e74c3c;
+}
+
+/* 表單欄位 */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-group label {
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.form-group input {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%;
+}
+
+/* 記住帳號 + 登入按鈕同列，間隔10% */
+.login-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.login-actions label {
+    flex: 1;
+}
+
+.login-actions button {
+    flex: 1;
+    margin-left: 10%;
+    padding: 12px 0;
+    border: none;
+    border-radius: 5px;
+    background: #007BFF;  /* 正藍色 */
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.login-actions button:hover {
+    background: #0056b3; /* 加深 */
+}
+
+/* ✅ 統一按鈕風格（註冊、重設密碼、登入） */
+button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 12px 0;
+    background: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 15px;
+}
+
+button[type="submit"]:hover {
+    background: #0056b3;
+}
+
+/* 切換連結 & 忘記密碼 */
+.toggle-link, .forgot-password {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #e74c3c;
+    text-decoration: none;
+}
+
+.toggle-link:hover, .forgot-password:hover {
+    text-decoration: underline;
+}
+
+/* 錯誤訊息 & 密碼提示 */
+.error {
+    color: #c0392b;
+    font-size: 0.85rem;
+    margin-top: 3px;
+}
+
+.password-tip {
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 2px;
+}
+
+.password-strength {
+    height: 5px;
+    width: 100%;
+    background: #eee;
+    border-radius: 3px;
+    margin-top: 5px;
+}
+
+/* ✅ 性別 checkbox 排版 */
+.gender-options {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    flex-wrap: wrap;
+}
+
+.gender-options label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.gender-options input[type="checkbox"] {
+    transform: scale(1.1);
+}
+
+/* RWD */
+@media screen and (max-width: 1024px) {
+    .container {
+        width: 70%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    main {
+        padding: 20px 10px;
+    }
+    .container {
+        width: 90%;
+        padding: 25px 15px;
+    }
+    .login-actions {
+        flex-direction: column;
+    }
+    .login-actions button {
+        margin-left: 0;
+        margin-top: 10px;
+        width: 100%;
+    }
+}
+
+/* ✅ 讓「出生年月日 + 性別」在同一行 */
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  .form-row .half {
+    flex: 1;
+  }
+  
+  /* ✅ 性別下拉選單樣式統一 */
+  select {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    background: #fff;
+    width: 100%;
+    cursor: pointer;
+  }
+  
+  /* ✅ RWD 自動換行 */
+  @media screen and (max-width: 768px) {
+    .form-row {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+  

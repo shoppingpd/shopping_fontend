@@ -40,7 +40,7 @@
 
 /* ===== 主體樣式 ===== */
 body {
-  min-height: 100vh;
+  /* min-height: 100vh; */
   color: var(--c-text); /* 文字顏色 */
   background: var(--c-background); /* 背景色 */
   transition:
