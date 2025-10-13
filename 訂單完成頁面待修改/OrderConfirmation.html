@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>訂單完成</title>
+  <link rel="stylesheet" href="css/OrderConfirmation.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div>
+        <h1>感謝您的訂購！</h1>
+        <p class="muted">您的訂單已成立，我們已寄出確認信件。</p>
+      </div>
+      <div class="actions">
+        <button id="btnPrint" class="btn ghost">列印/存 PDF</button>
+        <button id="btnBack" class="btn primary">回商店</button>
+      </div>
+    </header>
+
+    <section class="meta card">
+      <div class="row">
+        <div><div class="label">訂單編號</div><div id="orderNo" class="value">—</div></div>
+        <div><div class="label">下單時間</div><div id="orderTime" class="value">—</div></div>
+        <div><div class="label">付款方式</div><div id="orderPay" class="value">—</div></div>
+        <div><div class="label">優惠碼</div><div id="orderPromo" class="value">—</div></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>收件人資訊</h3>
+      <div class="grid-2">
+        <div><div class="label">姓名</div><div id="buyerName" class="value">—</div></div>
+        <div><div class="label">電話</div><div id="buyerPhone" class="value">—</div></div>
+        <div class="col-span-2"><div class="label">地址</div><div id="buyerAddr" class="value">—</div></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>商品明細</h3>
+      <div id="items" class="items"></div>
+
+      <div class="summary">
+        <div class="row"><span>品項數</span><span id="selCount">0</span></div>
+        <div class="row"><span>小計</span><span id="sumSub">$0</span></div>
+        <div class="row"><span>運費</span><span id="sumShip">$0</span></div>
+        <div class="row"><span>稅額</span><span id="sumTax">$0</span></div>
+        <div class="row"><span>折扣</span><span id="sumDiscount">$0</span></div>
+        <div class="row grand"><span>應付總額</span><span id="sumTotal">$0</span></div>
+      </div>
+      <p id="promoMsg" class="help"></p>
+    </section>
+
+    <footer class="footer muted">
+      若您對訂單有任何問題，請聯繫客服：service@example.com
+    </footer>
+  </div>
+
+  <script src="js/OrderConfirmation.js" defer></script>
+</body>
+</html>
