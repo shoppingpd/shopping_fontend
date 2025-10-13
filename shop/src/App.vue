@@ -7,7 +7,7 @@
           <div class="box" v-for="i in 8" :key="i">
             <div v-if="i == 1" class="icon"></div>
             <RouterLink v-if="i == 3" to="/">首頁</RouterLink>
-            <RouterLink v-if="i == 4" to="/x">我的賣場</RouterLink>
+            <RouterLink v-if="i == 4" to="/productpage">我的賣場</RouterLink>
 
             <RouterLink v-if="i == 5" to="/shop">購物車</RouterLink>
             <RouterLink v-if="i == 6" to="/x">會員中心</RouterLink>
@@ -73,8 +73,7 @@ header .wrapper {
   margin: 0 auto;
   display: flex;
   justify-content: center; /* nav 水平置中 */
-  padding: 1rem 1rem;
-  height: 20%;
+  padding: 1.5rem 1rem;
   background-color: #ff7b00;
 }
 
@@ -138,7 +137,7 @@ nav a.router-link-exact-active {
 /* ===== Footer ===== */
 footer {
   background-color: #7e3f04;
-  padding: 1rem 0;
+  padding: 3rem 0;
   color: #fff;
   text-align: center;
 }
