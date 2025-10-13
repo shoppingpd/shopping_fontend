@@ -85,7 +85,7 @@
 
 <script setup>
 import { useRoute } from 'vue-router'
-import { ref, computed, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 const product = ref([])
 // const product = ref({
 //   name: '極簡素色襯衫',
