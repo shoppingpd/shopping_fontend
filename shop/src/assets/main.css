@@ -1,0 +1,40 @@
+/* 匯入共用的基礎樣式，例如 reset 或全域變數設定 */
+@import './base.css';
+
+/* App 主容器設定 */
+#app {
+  max-width: 100%; /* 最大寬度限制，避免太寬影響閱讀 */
+  margin: 0 auto; /* 水平置中 */
+  font-weight: normal; /* 預設字重為一般 */
+}
+
+/* 超連結與 class="green" 的共用樣式 */
+a,
+.green {
+  text-decoration: none; /* 移除底線 */
+  color: rgb(0, 0, 0); /* 設定文字顏色為黑色 */
+  transition: 0.4s; /* 滑入滑出顏色時的過渡動畫 */
+  padding: 3px; /* 小內距，讓 hover 背景有空間 */
+}
+
+/* 只有支援滑鼠懸停的裝置（例如桌機）才套用 hover 效果 */
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(32, 86%, 56%, 0.2); /* 滑過時加上淡綠背景 */
+  }
+}
+
+/* 螢幕寬度超過 1024px 時（電腦版布局） */
+@media (min-width: 1024px) {
+  body {
+    display: flex; /* 讓 body 變成 flex 容器 */
+    place-items: center; /* 水平與垂直置中（等於 align-items + justify-content） */
+    width: 100%;
+  }
+
+  #app {
+    display: flex; /* flex 才能排水平或垂直 */
+    flex-direction: column; /* 上下排列 */
+    width: 100%; /* 水平留白，取消上方 padding */
+  }
+}
