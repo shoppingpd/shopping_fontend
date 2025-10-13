@@ -1,0 +1,146 @@
+/* 區塊寬度與間距 */
+section.user-info,
+section.password-change {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+/* 三欄排版：表格格線風格 */
+.form-row {
+  display: grid;
+  grid-template-columns: 10em 30em; /*左右欄寬*/
+  align-items: center;
+  margin-bottom: 8px;
+  box-sizing: border-box;
+}
+
+
+/* 左欄：標籤 */
+.form-row label {
+  padding: 6px 10px;
+  font-weight: bold;
+  font-size: 15px;
+  color: #333;
+  text-align: right;
+  box-sizing: border-box;
+}
+
+
+/* 中欄：資料欄位（span） */
+.form-value {
+  padding: 6px 10px;
+  font-size: 16px;
+  color: #444;
+  min-height: 1.5em;
+  box-sizing: border-box;
+  display: inline-block;
+  width: 100%;
+}
+
+
+/* 密碼欄位容器（input + 顯示按鈕） */
+.password-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 密碼輸入欄位 */
+.password-wrapper input[type="password"],
+.password-wrapper input[type="text"],
+input[type="password"],
+input[type="text"] {
+  padding: 6px 10px;
+  font-size: 16px;
+  font-family: inherit;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 15ch;
+  box-sizing: border-box;
+}
+
+/* 顯示/隱藏密碼按鈕 */
+#toggle-password {
+  padding: 6px 10px;
+  font-size: 14px;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* 所有按鈕：穩定灰底、黑字 */
+button,
+#toggle-password {
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 14px;
+  height: 36px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #f5f5f5;
+  color: #000;
+  box-sizing: border-box;
+}
+
+/* 確認密碼按鈕寬度 */
+#update-password-btn {
+  width: auto;
+  max-width: 8em;
+}
+
+/* 狀態提示文字：跨欄顯示 */
+.form-status {
+  color: green;
+  font-size: 14px;
+  padding: 6px 10px;
+  grid-column: 2 / span 2;
+}
+
+/* 隱形標籤佔位（保持對齊） */
+.invisible-label {
+  visibility: hidden;
+  padding: 6px 10px;
+  box-sizing: border-box;
+}
+
+
+/* 響應式排版：小螢幕自動換行 */
+@media (max-width: 480px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row label,
+  .form-value,
+  .grid-spacer {
+    width: 100%;
+    padding: 6px 10px;
+  }
+
+  .form-row label {
+    text-align: left;
+    font-weight: bold;
+  }
+
+  .form-row:last-child .grid-spacer {
+    border-bottom: none;
+  }
+
+  .form-status {
+    grid-column: auto;
+    margin-left: 0;
+  }
+
+  .password-wrapper {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .password-wrapper input,
+  .password-wrapper button {
+    width: 100%;
+  }
+}
