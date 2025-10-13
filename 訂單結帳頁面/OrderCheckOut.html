@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>訂單結帳｜Shopee 風格</title>
+  <link rel="stylesheet" href="./css/CheckOut.css" />
+</head>
+<body>
+  <!-- 頂部導覽 -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="logo">SHOPEE CHECKOUT</div>
+      <div class="top-actions">
+        <a class="top-link" href="javascript:void(0)">幫助中心</a>
+        <a class="top-link" href="javascript:void(0)">登入</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 主要內容：左右各 15% 空白 -->
+  <div class="container">
+    <div class="page-frame">
+      <header class="header">
+        <h1 class="brand">確認訂單</h1>
+        <div class="muted">請檢查收件、配送與發票資訊</div>
+      </header>
+
+      <div class="layout">
+        <!-- 左：表單 -->
+        <main class="panel">
+          <!-- 寄送資訊（訂購人） -->
+          <section class="panel-sec">
+            <div class="panel-hd"><div class="hd-title">寄送資訊</div></div>
+            <div class="panel-bd grid-2">
+              <label class="field"><span>訂購人姓名</span><input class="input" id="buyerName" placeholder="王小明" /></label>
+              <label class="field"><span>E-mail</span><input class="input" id="buyerEmail" placeholder="example@mail.com" /></label>
+              <label class="field"><span>手機號碼</span><input class="input" id="buyerMobile" placeholder="0911-111-111" /></label>
+              <label class="field"><span>聯絡電話</span><input class="input" id="buyerPhone" placeholder="(02) 2666-8888 分機 111" /></label>
+              <label class="field"><span>縣市</span><input class="input" id="buyerCity" placeholder="台北市" /></label>
+              <label class="field"><span>區鄉鎮</span><input class="input" id="buyerDistrict" placeholder="信義區" /></label>
+              <label class="field col-2"><span>地址</span><input class="input" id="buyerAddress" placeholder="松仁路 100 號 8 樓" /></label>
+            </div>
+          </section>
+
+          <!-- 收件人 -->
+          <section class="panel-sec">
+            <div class="panel-hd">
+              <div class="hd-title">收件人</div>
+              <div class="seg" id="recvTabs">
+                <label class="seg-item"><input type="radio" name="recvTab" value="same" checked><span>同訂購人</span></label>
+                <label class="seg-item"><input type="radio" name="recvTab" value="recent"><span>選擇最近地址</span></label>
+                <label class="seg-item"><input type="radio" name="recvTab" value="edit"><span>自填</span></label>
+              </div>
+            </div>
+            <div class="panel-bd grid-2" id="recvForm">
+              <label class="field"><span>姓名</span><input class="input" id="recvName" placeholder="王小明" /></label>
+              <label class="field"><span>手機號碼</span><input class="input" id="recvMobile" placeholder="0911-111-111" /></label>
+              <label class="field"><span>聯絡電話</span><input class="input" id="recvPhone" placeholder="(02) 2666-8888 分機 111" /></label>
+              <div class="field"></div>
+
+              <!-- 宅配地址（當配送方式＝宅配時顯示） -->
+              <div id="homeAddressBlock" class="col-2 grid-2">
+                <label class="field"><span>縣市</span><input class="input" id="recvCity" placeholder="台北市" /></label>
+                <label class="field"><span>區鄉鎮</span><input class="input" id="recvDistrict" placeholder="信義區" /></label>
+                <label class="field col-2"><span>地址</span><input class="input" id="recvAddress" placeholder="松仁路 100 號 8 樓" /></label>
+              </div>
+
+              <!-- 超商門市（當配送方式＝超商時顯示） -->
+              <div id="storePickupBlock" class="col-2 grid-2 hidden">
+                <label class="field">
+                  <span>超商品牌</span>
+                  <select class="input" id="storeBrand">
+                    <option value="7-ELEVEN">7-ELEVEN</option>
+                    <option value="FAMI">全家</option>
+                    <option value="HILIFE">萊爾富</option>
+                    <option value="OKMART">OK</option>
+                  </select>
+                </label>
+                <label class="field">
+                  <span>門市代碼</span>
+                  <input class="input" id="storeCode" placeholder="例如：123456" />
+                </label>
+                <label class="field col-2">
+                  <span>門市名稱 / 地址</span>
+                  <input class="input" id="storeName" placeholder="台北松仁門市／台北市信義區松仁路 100 號" />
+                </label>
+                <div class="col-2 muted">※ 到貨簡訊會寄到收件人手機號碼，取件請攜帶身分證件。</div>
+              </div>
+
+              <label class="field col-2 row">
+                <input type="checkbox" id="showBuyerOnLabel" />
+                <span class="ml-8">宅配單顯示訂購人名稱</span>
+                <span class="muted ml-8">（可能無法完整顯示）</span>
+              </label>
+              <label class="field col-2"><span>備註（選填）</span>
+                <textarea class="input" id="recvNote" rows="2" placeholder="門禁、時間等需求"></textarea>
+              </label>
+            </div>
+          </section>
+
+          <!-- 配送方式 & 付款方式（新增） -->
+          <section class="panel-sec">
+            <div class="panel-hd"><div class="hd-title">配送與付款</div></div>
+            <div class="panel-bd">
+              <div class="subhd">配送方式</div>
+              <div class="radio-row" id="deliveryGroup">
+                <label class="radio"><input type="radio" name="delivery" value="home" checked> 宅配到府</label>
+                <label class="radio"><input type="radio" name="delivery" value="store"> 超商取貨</label>
+              </div>
+
+              <div class="subhd mt-12">付款方式</div>
+              <div class="radio-row" id="paymentGroup">
+              <label class="radio"><input type="radio" name="payment" value="cod" checked> 貨到付款</label>
+              </div>
+              <div class="muted">※ 目前僅提供貨到付款。</div>          
+            </div>
+          </section>
+
+          <!-- 發票 -->
+          <section class="panel-sec">
+            <div class="panel-hd"><div class="hd-title">發票</div></div>
+            <div class="panel-bd">
+              <div class="radio-row">
+                <label class="radio"><input type="radio" name="invType" value="personal" checked> 個人雲端</label>
+                <label class="radio"><input type="radio" name="invType" value="donate"> 捐贈</label>
+                <label class="radio"><input type="radio" name="invType" value="company"> 公司發票</label>
+              </div>
+
+              <!-- 個人：載具 -->
+              <div id="invPersonal" class="inv-box">
+                <div class="radio-row">
+                  <label class="radio"><input type="radio" name="carrier" value="member" checked> 會員載具</label>
+                  <label class="radio"><input type="radio" name="carrier" value="mobile"> 手機條碼</label>
+                </div>
+                <div class="grid-2">
+                  <label class="field"><span>會員載具條碼</span><input class="input" id="memberCarrier" value="/ABCD12" /></label>
+                  <div></div>
+                  <label class="field hidden" id="mobileCarrierBox"><span>手機條碼</span><input class="input" id="mobileBarcode" placeholder="/ABCD123" /></label>
+                </div>
+                <label class="field row"><input type="checkbox" id="saveAsCommon" /><span class="ml-8">儲存為常用載具</span></label>
+              </div>
+
+              <!-- 捐贈 -->
+              <div id="invDonate" class="inv-box hidden">
+                <div class="grid-2"><label class="field"><span>愛心碼 / 捐贈碼</span><input class="input" id="donateCode" placeholder="例如：16888" /></label></div>
+              </div>
+
+              <!-- 公司 -->
+              <div id="invCompany" class="inv-box hidden">
+                <div class="grid-2">
+                  <label class="field"><span>公司抬頭</span><input class="input" id="companyName" placeholder="某某股份有限公司" /></label>
+                  <label class="field"><span>統一編號</span><input class="input" id="taxId" placeholder="12345678" /></label>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div class="panel-sec actions">
+            <button class="btn primary" id="btnSubmit">提交訂單</button>
+          </div>
+        </main>
+
+        <!-- 右：摘要 -->
+        <aside class="panel sticky">
+          <section class="panel-sec">
+            <div class="panel-hd"><div class="hd-title">訂單摘要</div></div>
+            <div class="panel-bd">
+              <div id="summaryItems" class="summary-items"></div>
+              <hr class="divider" />
+              <div class="line"><span>小計</span><strong id="sumSubtotal">NT$ 0</strong></div>
+              <div class="line"><span>折扣</span><strong id="sumDiscount">- NT$ 0</strong></div>
+              <div class="line"><span>運費</span><strong id="sumShipping">NT$ 0</strong></div>
+              <hr class="divider" />
+              <div class="line total"><span>應付金額</span><strong id="sumTotal">NT$ 0</strong></div>
+
+              <div class="coupon">
+                <<input class="input" id="promoInput" placeholder="滿 NT$1,000 可用折扣碼（SAVE100）" />
+                <button class="btn outline" id="btnApplyPromo">套用</button>
+                <div class="msg" id="promoMsg"></div>
+              </div>
+            </div>
+          </section>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <script src="./js/CheckOut.js"></script>
+</body>
+</html>
