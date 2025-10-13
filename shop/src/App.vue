@@ -7,7 +7,7 @@
           <div class="box" v-for="i in 8" :key="i">
             <div v-if="i == 1" class="icon"></div>
             <RouterLink v-if="i == 3" to="/">首頁</RouterLink>
-            <RouterLink v-if="i == 4" to="/productpage">我的賣場</RouterLink>
+            <RouterLink v-if="i == 4" to="/x">我的賣場</RouterLink>
 
             <RouterLink v-if="i == 5" to="/shop">購物車</RouterLink>
             <RouterLink v-if="i == 6" to="/x">會員中心</RouterLink>

@@ -1,84 +1,63 @@
 <template>
-  <!-- 整頁容器 -->
   <div class="container">
     <h1 style="margin: 8px 0 12px">購物車</h1>
 
     <div class="layout">
-      <!-- ========== 左：清單面板 ========== -->
       <section class="panel card">
         <div class="toolbar">
-          <!-- 全選：使用具名 v-model 綁定到 computed checkAll -->
           <label>
             <input type="checkbox" v-model="checkAll" />
             全選
           </label>
           <div class="spacer"></div>
-          <button class="link" @click="deleteSelected">刪除所選</button>
+          <button class="link deletebtn" @click="deleteSelected">刪除所選</button>
         </div>
 
-        <!-- 多店鋪清單：依店名分組後渲染 -->
         <div>
-          <section v-for="(group, shopName) in groupedByShop" :key="shopName" class="shop">
-            <div class="shop__head">
-              <!-- 店鋪選取框：控制該店所有商品的 selected -->
-              <label>
-                <input
-                  type="checkbox"
-                  :checked="group.length > 0 && group.every((i) => i.selected)"
-                  @change="toggleShop(shopName, $event.target.checked)"
+          <section v-for="item in items" :key="item.商品編號" class="shop">
+            <div class="shop__body item">
+              <div>
+                <input type="checkbox" v-model="item.selected" />
+              </div>
+
+              <div class="thumb">
+                <img
+                  :src="'/assets/img/' + item.商品照片"
+                  :alt="item.商品名稱"
+                  @error="(e) => (e.target.src = placeholderImg)"
                 />
-                {{ shopName }}
-              </label>
-            </div>
+              </div>
 
-            <div class="shop__body">
-              <!-- 單列商品 -->
-              <div v-for="it in group" :key="it.id" class="item">
-                <div>
-                  <input type="checkbox" v-model="it.selected" @change="persist()" />
-                </div>
+              <div class="info">
+                <div class="name">{{ item.商品名稱 }}</div>
+              </div>
 
-                <div class="thumb">
-                  <img
-                    :src="it.img"
-                    :alt="it.name"
-                    @error="(e) => (e.target.src = placeholderImg)"
+              <div class="price">{{ fmt(item.價格) }}</div>
+
+              <div class="qty">
+                <div class="stepper">
+                  <button class="btn-dec" @click="decQty(item)">−</button>
+                  <input
+                    class="inp"
+                    type="number"
+                    min="1"
+                    :value="item.數量"
+                    @change="(e) => setQty(item, e.target.value)"
                   />
+                  <button class="btn-inc" @click="incQty(item)">＋</button>
                 </div>
+              </div>
 
-                <div class="info">
-                  <div class="name">{{ it.name }}</div>
-                  <div class="sku">{{ it.sku }}</div>
-                </div>
+              <div class="subtotal">{{ fmt(item.數量 * item.價格) }}</div>
 
-                <div class="price">{{ fmt(it.price) }}</div>
-
-                <div class="qty">
-                  <div class="stepper">
-                    <button class="btn-dec" @click="decQty(it)">−</button>
-                    <input
-                      class="inp"
-                      type="number"
-                      min="1"
-                      :value="it.qty"
-                      @change="(e) => setQty(it, e.target.value)"
-                    />
-                    <button class="btn-inc" @click="incQty(it)">＋</button>
-                  </div>
-                </div>
-
-                <div class="subtotal">{{ fmt(it.qty * it.price) }}</div>
-
-                <div class="ops">
-                  <button class="link btn-del" @click="removeItem(it.id)">刪除</button>
-                </div>
+              <div class="ops">
+                <button class="link btn-del" @click="removeItem(item.購物車編號)">刪除</button>
               </div>
             </div>
           </section>
         </div>
       </section>
 
-      <!-- ========== 右：訂單摘要 ========== -->
       <aside class="summary card">
         <h3>訂單摘要</h3>
         <div class="kv">
@@ -124,18 +103,21 @@
 </template>
 
 <script setup>
-// ======================
-// Vue 3 (Composition API) - JavaScript 版
-// ======================
-import { reactive, computed, watch, onMounted, ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 
-// ----- 金額/運費/稅設定 -----
-const FREE_SHIP = 1500 // 滿額免運門檻
-const BASE_SHIP = 0 // 基本運費（可改）
-const TAX_RATE = 0.0 // 稅率（可改）
-const STORAGE_KEY = 'multi-shop-cart-v1'
+// ----- 設定 -----
+const FREE_SHIP = 1500
+const BASE_SHIP = 0
+const TAX_RATE = 0.0
+const myuser = ref(1) // 預設使用者1
 
-// 佔位圖（圖片載入失敗用）
+// ----- 響應式狀態 -----
+const items = ref([]) // **核心修正：使用 ref 來儲存購物車商品，這是唯一的數據源**
+const promo = ref(null) // { code, type: 'amount'|'percent', value: number }
+const promoInput = ref('')
+const promoMsg = ref('')
+
+// 佔位圖
 const placeholderImg =
   'data:image/svg+xml;utf8,' +
   encodeURIComponent(
@@ -147,159 +129,86 @@ const placeholderImg =
     </svg>`,
   )
 
-// ----- 假資料（與原版一致） -----
-const itemsSeed = [
-  // 男裝
-  {
-    id: 'm-001',
-    shop: '男裝館',
-    name: '素色短T',
-    sku: '黑 / M',
-    price: 390,
-    qty: 1,
-    selected: true,
-    img: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=600&auto=format&fit=crop&q=60',
-  },
-  {
-    id: 'm-002',
-    shop: '男裝館',
-    name: '修身牛仔褲',
-    sku: '深藍 / 32',
-    price: 990,
-    qty: 1,
-    selected: false,
-    img: 'https://images.unsplash.com/photo-1511193311914-0346f16efe90?w=600&auto=format&fit=crop&q=60',
-  },
-  // 女裝
-  {
-    id: 'w-001',
-    shop: '女裝館',
-    name: '棉質上衣',
-    sku: '奶茶 / S',
-    price: 520,
-    qty: 1,
-    selected: true,
-    img: 'https://images.unsplash.com/photo-1520975922323-0e4c92758e1f?w=600&auto=format&fit=crop&q=60',
-  },
-  {
-    id: 'w-002',
-    shop: '女裝館',
-    name: '百褶長裙',
-    sku: '霧灰 / M',
-    price: 860,
-    qty: 1,
-    selected: false,
-    img: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&auto=format&fit=crop&q=60',
-  },
-  // 兒童
-  {
-    id: 'k-001',
-    shop: '兒童館',
-    name: '印花T (童)',
-    sku: '亮黃 / 110',
-    price: 280,
-    qty: 2,
-    selected: false,
-    img: 'https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=600&auto=format&fit=crop&q=60',
-  },
-]
-
-// ----- 狀態：items（購物車）、promo（優惠券）等 -----
-const state = reactive({
-  items: [],
-  promo: null, // { code, type: 'amount'|'percent', value: number }
-})
-
-// 優惠碼輸入與訊息
-const promoInput = ref('')
-const promoMsg = ref('')
-
-// ----- 初始化：從 localStorage 載入 -----
-const load = () => {
+// **核心修正：合併數據加載邏輯**
+async function loadCartData() {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    state.items = raw ? JSON.parse(raw) : itemsSeed.slice()
-  } catch {
-    state.items = itemsSeed.slice()
+    const res = await fetch(`http://localhost:8080/cart/user/${myuser.value}`)
+    if (!res.ok) throw new Error('伺服器回應錯誤')
+    const dataFromApi = await res.json()
+
+    // **重要：為從 API 來的數據添加前端需要的狀態（例如 `selected`）**
+    // 預設將所有商品設置為選中狀態
+    items.value = dataFromApi.map((item) => ({
+      ...item,
+      selected: false, // 添加 selected 屬性用於 checkbox 綁定
+    }))
+    console.log('購物車數據加載成功:', items.value)
+  } catch (err) {
+    console.error('讀取購物車失敗：', err)
+    items.value = [] // 如果加載失敗，清空陣列
   }
-  persist()
 }
 
-const persist = () => {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state.items))
-}
-
-// 啟動時載入
-onMounted(load)
-
-// 當 items 改變就持久化（也可只在關鍵動作時呼叫 persist()）
-watch(
-  () => state.items,
-  () => persist(),
-  { deep: true },
-)
+// 元件掛載時執行加載
+onMounted(loadCartData)
 
 // ----- 工具：金額格式化 -----
 const fmt = (n) => '$' + Number(n || 0).toFixed(2)
 
-// ----- 依店鋪分組（物件：{ [shopName]: Item[] }） -----
-const groupedByShop = computed(() => {
-  return state.items.reduce((m, it) => {
-    ;(m[it.shop] ||= []).push(it)
-    return m
-  }, {})
-})
-
-// ----- 全選（computed with getter/setter） -----
+// ----- 全選 -----
 const checkAll = computed({
   get() {
-    return state.items.length > 0 && state.items.every((i) => i.selected)
+    // **修正：基於 `items.value` 進行判斷**
+    return items.value.length > 0 && items.value.every((i) => i.selected)
   },
   set(val) {
-    state.items.forEach((i) => (i.selected = val))
-    persist()
+    // **修正：操作 `items.value`**
+    items.value.forEach((i) => (i.selected = val))
   },
 })
 
-// ----- 單店鋪全選/全不選 -----
-const toggleShop = (shopName, checked) => {
-  const group = groupedByShop.value[shopName] || []
-  group.forEach((i) => (i.selected = checked))
-  persist()
-}
-
-// ----- 單品操作：增減/設定數量、刪除 -----
+// ----- 單品操作 -----
 const incQty = (it) => {
-  it.qty += 1
+  it.數量 += 1
 }
 const decQty = (it) => {
-  it.qty = Math.max(1, it.qty - 1)
+  it.數量 = Math.max(1, it.數量 - 1)
 }
 const setQty = (it, val) => {
   const n = parseInt(val || '1', 10)
-  it.qty = Math.max(1, isNaN(n) ? 1 : n)
+  it.數量 = Math.max(1, isNaN(n) ? 1 : n)
 }
-const removeItem = (id) => {
-  state.items = state.items.filter((x) => x.id !== id)
+const removeItem = (productId) => {
+  // **修正：基於 `商品編號` 進行過濾**
+  items.value = items.value.filter((x) => x.購物車編號 !== productId)
 }
 
-// ----- 已選商品 & 計價 -----
-const selectedItems = computed(() => state.items.filter((i) => i.selected))
+// ----- 刪除所選 -----
+const deleteSelected = () => {
+  items.value = items.value.filter((i) => !i.selected)
+}
+
+// ----- 已選商品 & 計價 (Computed Properties) -----
+// **修正：所有計算屬性都從 `items.value` 派生**
+const selectedItems = computed(() => items.value.filter((i) => i.selected))
 const selectedCount = computed(() => selectedItems.value.length)
 
-const subtotal = computed(() => selectedItems.value.reduce((s, i) => s + i.price * i.qty, 0))
+const subtotal = computed(() =>
+  // **修正：使用正確的屬性名稱 `價格` 和 `數量`**
+  selectedItems.value.reduce((s, i) => s + i.價格 * i.數量, 0),
+)
 
 const shipping = computed(() => (subtotal.value >= FREE_SHIP ? 0 : BASE_SHIP))
 
 const tax = computed(() => +(subtotal.value * TAX_RATE).toFixed(2))
 
 const discount = computed(() => {
-  if (!state.promo) return 0
-  if (state.promo.type === 'amount') {
-    return Math.min(state.promo.value, subtotal.value)
+  if (!promo.value) return 0
+  if (promo.value.type === 'amount') {
+    return Math.min(promo.value.value, subtotal.value)
   }
-  if (state.promo.type === 'percent') {
-    return +(subtotal.value * state.promo.value).toFixed(2)
+  if (promo.value.type === 'percent') {
+    return +(subtotal.value * promo.value.value).toFixed(2)
   }
   return 0
 })
@@ -308,41 +217,36 @@ const total = computed(() =>
   Math.max(0, subtotal.value + shipping.value + tax.value - discount.value),
 )
 
-// ----- 刪除所選 -----
-const deleteSelected = () => {
-  state.items = state.items.filter((i) => !i.selected)
-}
-
 // ----- 優惠碼 -----
 const applyPromo = () => {
   const code = (promoInput.value || '').trim().toUpperCase()
   promoMsg.value = ''
   if (!code) {
-    state.promo = null
+    promo.value = null
     promoMsg.value = '請輸入優惠碼'
     return
   }
   if (code === 'SAVE100') {
-    state.promo = { code, type: 'amount', value: 100 }
+    promo.value = { code, type: 'amount', value: 100 }
     promoMsg.value = '已套用：折扣 100'
   } else if (code === 'SAVE10') {
-    state.promo = { code, type: 'percent', value: 0.1 }
+    promo.value = { code, type: 'percent', value: 0.1 }
     promoMsg.value = '已套用：九折'
   } else {
-    state.promo = null
+    promo.value = null
     promoMsg.value = '無效的優惠碼'
   }
 }
 
-// ----- 結帳（示範：彈窗；你也可以導向下一頁並存 sessionStorage） -----
+// ----- 結帳 -----
 const checkout = () => {
   if (selectedItems.value.length === 0) {
     alert('請先選擇商品')
     return
   }
-  // 這裡示範簡單 alert；若要導頁，可把資料寫進 sessionStorage 再 location.href
   const lines = selectedItems.value
-    .map((i) => `${i.shop}｜${i.name} x ${i.qty} = ${fmt(i.qty * i.price)}`)
+    // **修正：使用正確的屬性名稱**
+    .map((i) => `${i.商品名稱} x ${i.數量} = ${fmt(i.數量 * i.價格)}`)
     .join('\n')
   alert(`結帳明細\n\n${lines}\n\n合計：${fmt(total.value)}`)
 }
@@ -350,12 +254,12 @@ const checkout = () => {
 
 <style scoped>
 /* ======================================================
-   🎨 系統預設配色主題
-   說明：
-   - 全部顏色使用系統預設（不自訂顏色值）
-   - 文字、邊框、背景皆用 system colors
-   - 可以配合 OS 的淺色/深色模式自動切換
-   - 提升可讀性與無障礙設計
+    🎨 系統預設配色主題
+    說明：
+    - 全部顏色使用系統預設（不自訂顏色值）
+    - 文字、邊框、背景皆用 system colors
+    - 可以配合 OS 的淺色/深色模式自動切換
+    - 提升可讀性與無障礙設計
 ====================================================== */
 
 /* ===== 使用系統顏色變數 ===== */
@@ -407,9 +311,27 @@ body {
 }
 
 /* ===== 容器設定 ===== */
+.layout .deletebtn {
+  background-color: rgba(230, 62, 62, 0.936);
+  border: none;
+  border-radius: 50px;
+  height: 2rem;
+  padding: 0 1.5rem;
+  margin: 0 auto;
+  display: flex;
+  align-items: center; /* 垂直置中 */
+  justify-content: center; /* 水平置中（可選） */
+  color: white; /* 建議加上字體顏色 */
+}
+.layout .deletebtn:hover {
+  background-color: rgba(243, 103, 103, 0.908);
+  color: white;
+  cursor: pointer;
+}
+
 .container {
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 1rem 2rem;
 }
 .layout {
   display: grid;
@@ -467,8 +389,16 @@ body {
   background: var(--c-card);
   border-bottom: 1px solid var(--c-border);
 }
+input[type='checkbox'] {
+  transform: scale(1.5); /* 放大 1.5 倍 */
+  cursor: pointer; /* 滑鼠變成可點擊手勢 */
+  margin-right: 0.5rem; /* 與文字保持距離 */
+}
 .shop__body {
-  padding: 10px;
+  border-bottom: 1px solid var(--c-border);
+}
+.shop:last-child .shop__body {
+  border-bottom: none;
 }
 
 /* ===== 商品列 ===== */
@@ -478,11 +408,8 @@ body {
   align-items: center;
   gap: 12px;
   padding: 12px;
-  border-bottom: 1px dashed var(--c-border);
 }
-.item:last-child {
-  border-bottom: none;
-}
+
 .thumb {
   width: 96px;
   height: 96px;
@@ -553,12 +480,19 @@ body {
   .item {
     grid-template-columns: 36px 96px 1fr;
     grid-auto-rows: auto;
+    gap: 8px;
+    padding: 16px;
+  }
+  .info {
+    grid-column: 2 / 4; /* 讓 info 區域跨越圖片和剩餘空間 */
   }
   .price,
   .qty,
   .subtotal,
   .ops {
+    grid-column: 1 / 4; /* 讓這些控制項佔據整行 */
     justify-self: start;
+    margin-top: 8px;
   }
 }
 
