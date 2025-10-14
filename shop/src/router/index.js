@@ -23,6 +23,11 @@ const router = createRouter({
       name: 'productpage',
       component: () => import('../views/ProductPage.vue'),
     },
+    {
+      path: '/shoplist',
+      name: 'shoplist',
+      component: () => import('../views/ShopList.vue'),
+    },
   ],
 })
 
