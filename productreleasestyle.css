@@ -1,0 +1,80 @@
+/* main 區塊：用來置中整個表單容器，並設定背景與間距 */
+main.main {
+  display: flex;                    /* 使用 flex 排版 */
+  justify-content: center;         /* 水平置中 */
+  align-items: center;             /* 垂直置中 */
+  min-height: calc(100vh - 15vh - 6vh - 60px); /* 扣除 header/nav/footer 高度 */
+  background: #fdf6e3;             /* 設定背景色 */
+  padding: 20px;                   /* 外距 */
+}
+
+/* 表單外框容器：設定背景、陰影、圓角與寬度限制 */
+.container {
+  background: #fff;                /* 白色背景 */
+  padding: 30px 25px;              /* 內距 */
+  border-radius: 10px;             /* 圓角邊框 */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* 陰影效果 */
+  width: 100%;                     /* 滿版寬度 */
+  max-width: 750px;                /* 最大寬度限制（原本 500px，已放大 1.5 倍） */
+  display: flex;                   /* 使用 flex 排版 */
+  flex-direction: column;         /* 垂直排列 */
+  gap: 15px;                       /* 元素間距 */
+}
+
+/* 表單標題：置中、紅色字體、下方留白 */
+.container h1 {
+  text-align: center;              /* 文字置中 */
+  margin-bottom: 20px;             /* 下方間距 */
+  color: #e74c3c;                  /* 標題顏色 */
+}
+
+/* 每個欄位區塊：垂直排列並設定欄位間距 */
+.form-group {
+  display: flex;                   /* 使用 flex 排版 */
+  flex-direction: column;         /* 垂直排列 */
+  gap: 5px;                        /* 標籤與輸入框間距 */
+}
+
+/* label 樣式：設定字級與字重 */
+.form-group label {
+  font-size: 0.95rem;              /* 字級 */
+  font-weight: 500;                /* 字重 */
+}
+
+/* input 與 textarea 樣式：設定邊框、圓角、字級與寬度 */
+.form-group input,
+.form-group textarea {
+  padding: 10px 12px;             /* 內距 */
+  border: 1px solid #ccc;         /* 淺灰邊框 */
+  border-radius: 5px;             /* 圓角邊框 */
+  font-size: 1rem;                /* 字級 */
+  width: 100%;                    /* 滿寬 */
+}
+
+/* 按鈕區塊：左右排列並設定上方間距 */
+.form-actions {
+  display: flex;                   /* 使用 flex 排版 */
+  justify-content: space-between; /* 左右分散排列 */
+  margin-top: 20px;               /* 上方間距 */
+}
+
+/* 所有按鈕樣式：設定大小、圓角、背景色與滑鼠樣式 */
+.form-actions button {
+  padding: 10px 20px;             /* 內距 */
+  font-size: 1rem;                /* 字級 */
+  border: none;                   /* 無邊框 */
+  border-radius: 5px;             /* 圓角邊框 */
+  background-color: #3498db;      /* 預設藍色背景 */
+  color: white;                   /* 白色文字 */
+  cursor: pointer;                /* 滑鼠指標變手指 */
+}
+
+/* reset 按鈕樣式：橘色背景 */
+.form-actions button[type="reset"] {
+  background-color: #fc8b9a;      /* 橘色背景 */
+}
+
+/* 滑鼠懸停效果：按鈕略為淡化 */
+.form-actions button:hover {
+  opacity: 0.9;                   /* 懸停時透明度降低 */
+}
