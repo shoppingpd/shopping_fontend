@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>產品詳細說明與訂購</title>
+<link rel="stylesheet" href="hw5(1008)/style.css"> <!--首頁頁首頁尾CSS-->
+<link rel="stylesheet" href="newPDdetails.css"> <!--產品頁CSS-->
+<script src="hw5(1008)/script.js" defer></script> <!--首頁頁首頁尾JS-->
+<script src="productdetails.js" defer></script> <!--產品頁JS-->
+</head>
+<body>
+
+<header>
+  <div class="top-header">
+    <div class="logo">LOGO</div>
+    <div class="actions">
+      <button>購物車</button>
+      <button>登入/註冊</button>
+    </div>
+  </div>
+  <nav class="nav-bar">
+    <button>女裝</button>
+    <button>男裝</button>
+    <button>童裝</button>
+    <button>限時特價</button>
+    <input type="text" placeholder="搜尋...">
+  </nav>
+</header>
+
+    <!-- 📦 主區塊 -->
+    <main class="main">
+      <aside class="left"></aside>
+
+      <section class="center">
+        <!-- 🖼️ 商品圖片輪播區 -->
+        <div class="image-slider">
+            <button class="arrow left" onclick="prevImage()">&lt;</button>
+            <img id="product-image" src="" alt="商品圖片" />
+            <button class="arrow right" onclick="nextImage()">&gt;</button>
+        </div>
+
+        <!-- 🧩 商品選項區 -->
+        <div class="center-right">
+          <div class="center-right-top">
+            <div class="field"><h1 id="product-name">商品名稱載入中...</h1></div>
+
+            <div class="field color-field">
+            <label>顏色:</label>
+            <div class="color-options"></div> <!-- ✅ JS 會動態插入選項 -->
+            </div>
+
+            <div class="field size-field">
+            <label>尺寸:</label>
+            <div class="size-options"></div> <!-- ✅ JS 會動態插入選項 -->
+            </div>
+
+            <div class="field price-field">
+            <label>售價:</label>
+            <span id="product-price"></span><!-- ✅ JS 會動態插入選項 -->
+            </div>
+
+            <div class="field quantity-field">
+              <label>數量:</label>
+              <div class="quantity-control">
+                <button type="button" class="qty-btn" onclick="decreaseQty()">-</button>
+                <input type="number" id="quantity" value="0" min="0" readonly />
+                <button type="button" class="qty-btn" onclick="increaseQty()">+</button>
+              </div>
+            </div>
+
+            <div class="field total-field">
+                <label>總金額:</label>
+                <span id="total-amount"></span>
+            </div>
+
+            <div class="selection-row">
+              <div id="selection-summary">已選：尚未選擇</div>
+              <div class="action-buttons">
+                <button class="oval-btn">加入購物車</button>
+                <button class="oval-btn">直接結帳</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <aside class="right"></aside>
+
+        <!-- 📄 商品詳細說明區（橫跨中央下方） -->
+        <section class="center-bottom">
+            <div class="center-bottom-inner">
+                <h2>商品詳細說明</h2>
+                <p>這裡可以放商品描述、材質、尺寸說明等內容。</p>
+                <p>這裡可以放商品描述、材質、尺寸說明等內容。</p>
+                <img src="/hw5/images/img1.jpg" alt="商品細節圖" />
+                <p>這裡可以放商品描述、材質、尺寸說明等內容。</p>
+                <p>這裡可以放商品描述、材質、尺寸說明等內容。</p>
+                <p>這裡可以放商品描述、材質、尺寸說明等內容。</p>
+                <p>這裡可以放商品描述、材質、尺寸說明等內容。</p>
+                <p>這裡可以放商品描述、材質、尺寸說明等內容。</p>
+                <p>這裡可以放商品描述、材質、尺寸說明等內容。</p>
+                <p>這裡可以放商品描述、材質、尺寸說明等內容。</p>
+            </div>
+        </section>
+    </main>
+
+<footer>
+  <button>配送方式</button>
+  <button>退換貨說明</button>
+</footer>
+
+</body>
+</html>

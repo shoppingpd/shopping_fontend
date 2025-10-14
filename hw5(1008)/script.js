@@ -208,3 +208,4 @@ document.querySelectorAll('footer button').forEach(btn => {
     alert(`你點擊了「${text}」按鈕！`);
   });
 });
+
