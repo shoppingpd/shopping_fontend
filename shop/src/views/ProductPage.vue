@@ -10,9 +10,23 @@
           </div>
         </div>
         <div class="center-right">
-          <div class="center-right-top">
+          <div class="center-right-top container">
             <h1>{{ product.name }}</h1>
-
+            <!-- 庫存 價格 -->
+            <div class="field size-field stock-price-field">
+              <div class="stock-price-box">
+                <label>名稱:</label>
+                <label>{{ product.商品名稱 }}</label>
+              </div>
+              <div class="stock-price-box">
+                <label>價格:</label>
+                <label>{{ product.價格 }} 元</label>
+              </div>
+              <div class="stock-price-box">
+                <label>庫存:</label>
+                <label>{{ product.庫存數量 }} 件</label>
+              </div>
+            </div>
             <!-- 顏色 -->
             <div class="field color-field">
               <label>顏色:</label>
@@ -36,12 +50,11 @@
               <label>尺寸:</label>
               <div class="size-options">
                 <label v-for="size in sizes" :key="size" class="option-box text-option">
-                  <input type="radio" name="size" :value="size" v-model="selectedSize" />
-                  {{ size }}
+                  <input type="radio" name="size" :value="size.name" v-model="selectedSize" />
+                  {{ size.name }}
                 </label>
               </div>
             </div>
-
             <!-- 數量 -->
             <div class="field quantity-field">
               <label>數量:</label>
@@ -51,9 +64,13 @@
                 <button class="qty-btn" @click="changeQty(1)">+</button>
               </div>
             </div>
+            <div class="center-right-bottom">
+              <h2>商品詳細說明</h2>
+              <p>{{ product.商品描述 }}</p>
+            </div>
 
             <!-- 選擇結果 -->
-            <div class="selection-row">
+            <div class="selection-row field-row">
               <div id="selection-summary">
                 已選：{{ selectedColor || '未選擇顏色' }} / {{ selectedSize || '未選擇尺寸' }} /
                 數量：{{ quantity }}
@@ -69,11 +86,6 @@
                 </button>
               </div>
             </div>
-          </div>
-
-          <div class="center-right-bottom">
-            <h2>商品詳細說明</h2>
-            <p>{{ product.商品描述 }}</p>
           </div>
         </div>
       </div>
@@ -92,16 +104,38 @@ const product = ref([])
 //   description: '柔軟棉質材質，透氣舒適，日常百搭。',
 // })
 
-const colors = [
-  { name: '紅色', hex: 'red' },
-  { name: '綠色', hex: 'green' },
-  { name: '藍色', hex: 'blue' },
-  { name: '黑色', hex: 'black' },
-  { name: '白色', hex: '#ffffff' },
-  { name: '深綠色', hex: 'darkgreen' },
-]
+// const colors = [
+//   { name: '紅色', hex: 'red' },
+//   { name: '綠色', hex: 'green' },
+//   { name: '藍色', hex: 'blue' },
+//   { name: '黑色', hex: 'black' },
+//   { name: '白色', hex: '#ffffff' },
+//   { name: '深綠色', hex: 'darkgreen' },
+// ]
+const colors = ref([])
 
-const sizes = ['XS', 'S', 'M', 'L', 'XL']
+onMounted(async () => {
+  await loadProducts()
+  if (product.value.顏色總類) {
+    colors.value = product.value.顏色總類.split(',').map((item) => {
+      const [name, hex] = item.split('#')
+      return { name: name + '色', hex: '#' + hex }
+    })
+  }
+})
+
+// const sizes = ['XS', 'S', 'M', 'L', 'XL']
+
+const sizes = ref([])
+
+onMounted(async () => {
+  await loadProducts()
+  if (product.value.尺寸總類) {
+    sizes.value = product.value.尺寸總類.split(',').map((item) => {
+      return { name: item }
+    })
+  }
+})
 
 const selectedColor = ref('')
 const selectedSize = ref('')
@@ -154,6 +188,22 @@ async function loadProducts() {
   --c-accent: #ffebc2;
   --c-hover: #2f80ed;
 }
+.stock-price-field {
+  display: flex;
+  justify-content: space-between; /* 讓 10 份均分 */
+  width: 75%;
+}
+.stock-price-box {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap; /* 避免折行 */
+}
+.stock-price-field .stock-price-box label {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
 .option-box input {
   display: none;
 }
@@ -164,7 +214,20 @@ async function loadProducts() {
   outline: 2px solid var(--c-primary);
 }
 .field {
-  margin: 1rem 0;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.field label {
+  white-space: nowrap;
+}
+.field-row {
+  flex: 1.5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 .field label {
   font-size: 1rem;
@@ -242,8 +305,8 @@ async function loadProducts() {
 
 /* ===== 選擇結果區塊美化 ===== */
 .selection-row {
-  margin-top: 2rem;
-  padding: 1.5rem;
+  margin-top: 1rem;
+  padding: 0.5rem;
   background: linear-gradient(135deg, var(--c-background-soft) 0%, var(--c-accent) 100%);
   border-radius: 12px;
   border: 1px solid var(--c-border);
@@ -264,7 +327,7 @@ async function loadProducts() {
 
 .oval-btn {
   flex: 1;
-  padding: 1rem 2rem;
+  padding: 1rem 3rem;
   border: none;
   border-radius: 50px;
   font-size: 1.1rem;
@@ -276,6 +339,7 @@ async function loadProducts() {
   justify-content: center;
   gap: 0.5rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
 }
 
 .btn-icon {
@@ -315,6 +379,12 @@ async function loadProducts() {
   width: 100%;
   height: 88vh; /* 讓 flex 子元素能撐滿父容器 */
 }
+.center-right .container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
 
 .center-left {
   flex: 1; /* 1 份 */
@@ -329,7 +399,12 @@ async function loadProducts() {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 2%;
+  padding: 1%;
+}
+.center-right .container {
+  display: flex;
+  width: 100%;
+  height: 100%;
 }
 
 .image-slider {
