@@ -15,15 +15,15 @@
             <!-- 庫存 價格 -->
             <div class="field size-field stock-price-field">
               <div class="stock-price-box">
-                <label>名稱:</label>
+                <label>名稱：</label>
                 <label>{{ product.商品名稱 }}</label>
               </div>
               <div class="stock-price-box">
-                <label>價格:</label>
+                <label>價格：</label>
                 <label>{{ product.價格 }} 元</label>
               </div>
               <div class="stock-price-box">
-                <label>庫存:</label>
+                <label>庫存：</label>
                 <label>{{ product.庫存數量 }} 件</label>
               </div>
             </div>
@@ -73,10 +73,11 @@
             <div class="selection-row field-row">
               <div id="selection-summary">
                 已選：{{ selectedColor || '未選擇顏色' }} / {{ selectedSize || '未選擇尺寸' }} /
-                數量：{{ quantity }}
+                數量：{{ quantity }} /
+                總價：{{ product.價格*quantity }}
               </div>
               <div class="action-buttons">
-                <button class="oval-btn cart-btn">
+                <button class="oval-btn cart-btn"  @click="addToCart()">
                   <span class="btn-icon">🛒</span>
                   加入購物車
                 </button>
@@ -99,6 +100,7 @@
 import { useRoute } from 'vue-router'
 import { ref, onMounted } from 'vue'
 const product = ref([])
+const user=ref(1)
 // const product = ref({
 //   name: '極簡素色襯衫',
 //   description: '柔軟棉質材質，透氣舒適，日常百搭。',
@@ -173,6 +175,45 @@ async function loadProducts() {
     console.error('讀取失敗：', err)
   }
 }
+// 購物車
+const newcart = ref([])
+function addToCart() {
+  if (selectedColor.value && selectedSize.value && quantity.value > 0) {
+    newcart.value.push({
+  商品編號: product.value.商品編號,
+  使用者編號: user,
+  數量: quantity.value,
+  商品顏色: selectedColor.value,
+  商品大小: selectedSize.value
+  })
+  console.log('加入購物車:', newcart.value)
+  postCart()
+  }
+  else {
+    alert('請選擇顏色和尺寸，並輸入數量！')
+  }
+
+}
+async function postCart() {
+  try {
+    const response = await fetch("http://localhost:8080/cart", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newcart.value[0])
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    alert("加入購物車成功!");
+    console.log("POST 成功:", data);
+  } catch (error) {
+    alert("加入購物車失敗!");
+    console.error("POST 失敗:", error);
+  }
+}
 </script>
 
 <style scoped>
@@ -188,18 +229,22 @@ async function loadProducts() {
   --c-accent: #ffebc2;
   --c-hover: #2f80ed;
 }
-.stock-price-field {
+.container .stock-price-field {
   display: flex;
-  justify-content: space-between; /* 讓 10 份均分 */
-  width: 75%;
+  flex-direction: column; /* 垂直排列 */
+  align-items: flex-start; /* 水平方向靠左 */
+  width: 100%;
+  gap: 0.5rem; /* 每個欄位間距，可調整 */
 }
-.stock-price-box {
-  flex: 1;
+
+.container .stock-price-box {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: center; /* 垂直置中 */
+  justify-content: flex-start; /* 水平方向靠左 */
   white-space: nowrap; /* 避免折行 */
+  gap: 0.5rem; /* label 間距 */
 }
+
 .stock-price-field .stock-price-box label {
   font-size: 1.5rem;
   font-weight: bold;
@@ -218,6 +263,7 @@ async function loadProducts() {
   display: flex;
   align-items: center;
   justify-content: center;
+
 }
 .field label {
   white-space: nowrap;

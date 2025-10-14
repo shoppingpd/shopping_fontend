@@ -51,7 +51,7 @@
               <div class="subtotal">{{ fmt(item.數量 * item.價格) }}</div>
 
               <div class="ops">
-                <button class="link btn-del" @click="removeItem(item.購物車編號)">刪除</button>
+                <button class="link deletebtn" @click="removeItem(item.購物車編號)">刪除</button>
               </div>
             </div>
           </section>
@@ -59,33 +59,34 @@
       </section>
 
       <aside class="summary card">
-        <h3>訂單摘要</h3>
+        <h3 style="font-weight: bold; font-size: 2rem;">訂單摘要</h3>
         <div class="kv">
           <div class="k">已選件數</div>
-          <div>{{ selectedCount }}</div>
+          <div class="numb">{{ selectedCount }}</div>
         </div>
         <div class="kv">
           <div class="k">小計</div>
-          <div>{{ fmt(subtotal) }}</div>
+          <div class="numb">{{ fmt(subtotal) }}</div>
         </div>
         <div class="kv">
           <div class="k">運費</div>
-          <div>{{ fmt(shipping) }}</div>
+          <div style="width: 20%;white-space: nowrap; margin-right: 60%; font-weight: bolder; ">{{ freeshipmessage }}</div>
+          <div class="numb">{{ fmt(shipping) }}</div>
         </div>
         <div class="kv">
           <div class="k">稅額</div>
-          <div>{{ fmt(tax) }}</div>
+          <div class="numb">{{ fmt(tax) }}</div>
         </div>
         <div class="kv">
-          <div class="k total">折扣</div>
-          <div class="total">-{{ fmt(discount) }}</div>
+          <div class="k total" style="font-weight: bold; font-size: 1.25rem">折扣</div>
+          <div class="total numb">-{{ fmt(discount) }}</div>
         </div>
         <div class="kv">
-          <div class="k total">合計</div>
-          <div class="total">{{ fmt(total) }}</div>
+          <div class="k total" style="font-weight: bold; font-size: 1.25rem">合計</div>
+          <div class="total numb">{{ fmt(total) }}</div>
         </div>
 
-        <button class="btn" :disabled="selectedCount === 0" @click="checkout">去結帳</button>
+        <button class="btn apply" :disabled="selectedCount === 0" @click="checkout">去結帳</button>
 
         <div class="promo">
           <div class="muted" style="margin-bottom: 6px">優惠碼</div>
@@ -95,7 +96,7 @@
             @keydown.enter.prevent="applyPromo"
           />
           <button class="btn apply" @click="applyPromo">套用</button>
-          <div class="muted" style="margin-top: 6px">{{ promoMsg }}</div>
+          <div class="muted" style="margin-top: 6px; color: rgba(230, 62, 62, 0.936); font-size: 1.5rem; font-weight: 900">{{ promoMsg }}</div>
         </div>
       </aside>
     </div>
@@ -106,9 +107,6 @@
 import { ref, computed, onMounted } from 'vue'
 
 // ----- 設定 -----
-const FREE_SHIP = 1500
-const BASE_SHIP = 0
-const TAX_RATE = 0.0
 const myuser = ref(1) // 預設使用者1
 
 // ----- 響應式狀態 -----
@@ -178,13 +176,46 @@ const setQty = (it, val) => {
   const n = parseInt(val || '1', 10)
   it.數量 = Math.max(1, isNaN(n) ? 1 : n)
 }
-const removeItem = (productId) => {
+
+
+const removeItem = async (productId) => {
   // **修正：基於 `商品編號` 進行過濾**
   items.value = items.value.filter((x) => x.購物車編號 !== productId)
+  try {
+    const res = await fetch(`http://localhost:8080/cart/${productId}`, {
+      method: "DELETE"
+    });
+
+    if (!res.ok) {
+      throw new Error("刪除失敗");
+    }
+
+    const data = await res.json();
+    console.log("刪除成功：", data);
+  } catch (err) {
+    console.error("錯誤：", err);
+  }
 }
 
 // ----- 刪除所選 -----
-const deleteSelected = () => {
+const deleteSelected = async () => {
+  const selectedItems = items.value.filter((i) => i.selected)
+  for (const item of selectedItems) {
+    try {
+      const res = await fetch(`http://localhost:8080/cart/${item.購物車編號}`, {
+        method: "DELETE"
+      });
+
+      if (!res.ok) {
+        throw new Error("刪除失敗");
+      }
+
+      const data = await res.json();
+      console.log("刪除成功：", data);
+    } catch (err) {
+      console.error("錯誤：", err);
+    }
+  }
   items.value = items.value.filter((i) => !i.selected)
 }
 
@@ -198,8 +229,14 @@ const subtotal = computed(() =>
   selectedItems.value.reduce((s, i) => s + i.價格 * i.數量, 0),
 )
 
-const shipping = computed(() => (subtotal.value >= FREE_SHIP ? 0 : BASE_SHIP))
+const FREE_SHIP = 3000
+const BASE_SHIP = 100
 
+const shipping = computed(() => (subtotal.value >= FREE_SHIP ? 0 : BASE_SHIP))
+const freeshipmessage = computed(() =>
+  subtotal.value >= FREE_SHIP ? '（已享免運）' : `（還差$${(FREE_SHIP - subtotal.value)}免運）`,
+)
+const TAX_RATE = 0.05
 const tax = computed(() => +(subtotal.value * TAX_RATE).toFixed(2))
 
 const discount = computed(() => {
@@ -223,7 +260,7 @@ const applyPromo = () => {
   promoMsg.value = ''
   if (!code) {
     promo.value = null
-    promoMsg.value = '請輸入優惠碼'
+    promoMsg.value = '請輸入優惠碼！'
     return
   }
   if (code === 'SAVE100') {
@@ -241,13 +278,14 @@ const applyPromo = () => {
 // ----- 結帳 -----
 const checkout = () => {
   if (selectedItems.value.length === 0) {
-    alert('請先選擇商品')
+    alert('請先選擇商品！')
     return
   }
   const lines = selectedItems.value
     // **修正：使用正確的屬性名稱**
-    .map((i) => `${i.商品名稱} x ${i.數量} = ${fmt(i.數量 * i.價格)}`)
-    .join('\n')
+    // .map((i) => `${i.商品名稱} x ${i.數量} = ${fmt(i.數量 * i.價格)}`)
+    // .join('\n')
+
   alert(`結帳明細\n\n${lines}\n\n合計：${fmt(total.value)}`)
 }
 </script>
@@ -510,16 +548,19 @@ input[type='checkbox'] {
   justify-content: space-between;
   padding: 10px 0;
   border-bottom: 1px dashed var(--c-border);
+  white-space: nowrap;
 }
 .kv:last-child {
   border-bottom: none;
 }
 .kv .k {
   color: var(--c-muted);
+  font-size: 1rem;
+
 }
 .total {
-  font-size: 18px;
-  font-weight: 800;
+  font-size: 1rem;
+  font-weight: 400;
 }
 .btn {
   width: 100%;
@@ -558,11 +599,25 @@ input[type='checkbox'] {
   background: var(--c-hover);
   color: var(--c-hover-text);
 }
+.apply {
+  margin-top: 10px;
+  border: 1px solid var(--c-text);
+  background: var(--c-card);
+}
+.apply:hover {
+  background: var(--c-hover);
+  color: var(--c-hover-text);
+}
+
 
 .muted {
   color: var(--c-muted);
 }
 .spacer {
   flex: 1;
+}
+.numb {
+  font-weight: 500;
+  font-size: 1.2rem;
 }
 </style>
