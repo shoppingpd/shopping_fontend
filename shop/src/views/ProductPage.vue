@@ -177,6 +177,10 @@
   // 加入購物車並直接結帳
   async function addToCartandbuy() {
     if (selectedColor.value && selectedSize.value && quantity.value > 0) {
+      if (product.value.庫存數量 < quantity.value) {
+        alert('商品庫存不足');
+        return;
+      }
       newcart.value.push({
         商品編號: product.value.商品編號,
         使用者編號: user.value,
