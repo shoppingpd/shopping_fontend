@@ -10,7 +10,7 @@
             <RouterLink v-if="i == 4" to="/shoplist">我的賣場</RouterLink>
 
             <RouterLink v-if="i == 5" to="/shop">購物車</RouterLink>
-            <RouterLink v-if="i == 6" to="/x">會員中心</RouterLink>
+            <RouterLink v-if="i == 6" to="/test">會員中心</RouterLink>
           </div>
         </nav>
       </div>
@@ -104,7 +104,6 @@ nav a.router-link-exact-active {
 
 /* ===== Main Content ===== */
 .content {
-  min-height: 100vh;
   margin: 0 auto;
   display: flex;
   flex-direction: column; /* 上下排列 */
