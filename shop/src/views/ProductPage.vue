@@ -96,116 +96,99 @@
 </template>
 
 <script setup>
-  import { useRoute, useRouter } from 'vue-router';
   import { ref, onMounted } from 'vue';
-  const product = ref([]);
-  const user = ref(1);
-  // const product = ref({
-  //   name: '極簡素色襯衫',
-  //   description: '柔軟棉質材質，透氣舒適，日常百搭。',
-  // })
+  import { useRoute, useRouter } from 'vue-router';
 
-  // const colors = [
-  //   { name: '紅色', hex: 'red' },
-  //   { name: '綠色', hex: 'green' },
-  //   { name: '藍色', hex: 'blue' },
-  //   { name: '黑色', hex: 'black' },
-  //   { name: '白色', hex: '#ffffff' },
-  //   { name: '深綠色', hex: 'darkgreen' },
-  // ]
-  const colors = ref([]);
+  // -------------------- 資料與狀態 --------------------
+  const product = ref({}); // 商品資料
+  const colors = ref([]); // 商品顏色選項
+  const sizes = ref([]); // 商品尺寸選項
+  const selectedColor = ref(''); // 使用者選擇的顏色
+  const selectedSize = ref(''); // 使用者選擇的尺寸
+  const quantity = ref(0); // 商品數量
+  const user = ref(1); // 假設的使用者編號
+  const newcart = ref([]); // 新增購物車暫存
+  const pushcart = ref([]); // 從後端取得的購物車資料
 
-  onMounted(async () => {
-    await loadProducts();
-    if (product.value.顏色總類) {
-      colors.value = product.value.顏色總類.split(',').map((item) => {
-        const [name, hex] = item.split('#');
-        return { name: name + '色', hex: '#' + hex };
-      });
-    }
-  });
-
-  // const sizes = ['XS', 'S', 'M', 'L', 'XL']
-
-  const sizes = ref([]);
-
-  onMounted(async () => {
-    await loadProducts();
-    if (product.value.尺寸總類) {
-      sizes.value = product.value.尺寸總類.split(',').map((item) => {
-        return { name: item };
-      });
-    }
-  });
-
-  const selectedColor = ref('');
-  const selectedSize = ref('');
-  const quantity = ref(0);
-
-  // const images = Array.from({ length: 5 }, (_, i) => `/images/img${i + 1}.jpg`)
-  // const currentIndex = ref(0)
-  // const currentImage = computed(() => images[currentIndex.value])
-  // const currentImage = computed(() => '/assets/img/img1.jpg')
-
-  // function prevImage() {
-  //   currentIndex.value = (currentIndex.value - 1 + images.length) % images.length
-  // }
-
-  // function nextImage() {
-  //   currentIndex.value = (currentIndex.value + 1) % images.length
-  // }
-
-  function changeQty(val) {
-    quantity.value = Math.max(0, quantity.value + val);
-  }
+  // -------------------- 路由 --------------------
   const route = useRoute();
-  const productId = route.query.id;
+  const router = useRouter();
+  const productId = route.query.id; // 從 URL query 拿商品編號
   console.log('拿到商品編號:', productId);
+
+  // -------------------- 商品資料載入 --------------------
   onMounted(() => {
     loadProducts();
   });
+
+  // 取得商品資料
   async function loadProducts() {
     try {
       const res = await fetch(`http://localhost:8080/products/${productId}`);
       if (!res.ok) throw new Error('伺服器回應錯誤');
       product.value = await res.json();
-      console.log(product.value);
+      console.log('商品資料:', product.value);
+
+      // 處理顏色資料
+      if (product.value.顏色總類) {
+        colors.value = product.value.顏色總類.split(',').map((item) => {
+          const [name, hex] = item.split('#');
+          return { name: name + '色', hex: '#' + hex };
+        });
+      }
+
+      // 處理尺寸資料
+      if (product.value.尺寸總類) {
+        sizes.value = product.value.尺寸總類.split(',').map((item) => ({ name: item }));
+      }
     } catch (err) {
       console.error('讀取失敗：', err);
     }
   }
-  // 購物車
-  const newcart = ref([]);
+
+  // -------------------- 商品數量操作 --------------------
+  function changeQty(val) {
+    // 保證數量 >= 0
+    quantity.value = Math.max(0, quantity.value + val);
+  }
+
+  // -------------------- 購物車操作 --------------------
+  // 加入購物車（暫存）
   function addToCart() {
     if (selectedColor.value && selectedSize.value && quantity.value > 0) {
+      if (product.value.庫存數量 < quantity.value) {
+        alert('商品庫存不足');
+        return;
+      }
       newcart.value.push({
         商品編號: product.value.商品編號,
-        使用者編號: user,
+        使用者編號: user.value,
         數量: quantity.value,
         商品顏色: selectedColor.value,
         商品大小: selectedSize.value,
       });
-      console.log('加入購物車:', newcart.value);
+      console.log('加入購物車暫存:', newcart.value);
       postCart();
     } else {
       alert('請選擇顏色和尺寸，並輸入數量！');
     }
   }
 
+  // 加入購物車並直接結帳
   async function addToCartandbuy() {
     if (selectedColor.value && selectedSize.value && quantity.value > 0) {
       newcart.value.push({
         商品編號: product.value.商品編號,
-        使用者編號: user.value, // ✅ 修正
+        使用者編號: user.value,
         數量: quantity.value,
         商品顏色: selectedColor.value,
         商品大小: selectedSize.value,
       });
-      console.log('加入購物車:', newcart.value);
+      console.log('加入購物車暫存:', newcart.value);
 
       try {
-        await postCart(); // ✅ 等待完成
-        gotobuy();
+        await postCart(); // 等待後端回應
+        goToBuy();
       } catch (err) {
         console.error('購買流程失敗', err);
       }
@@ -214,39 +197,66 @@
     }
   }
 
-  const router = useRouter();
-  function gotobuy() {
-    const data = encodeURIComponent(JSON.stringify([newcart.value[0]])); // 包成陣列
-    router.push({
-      name: 'shoplist',
-      query: { items: data },
-    });
-
-    router.push({
-      name: 'shoplist', // 假設你的結帳頁 route 名叫 checkout
-      query: { items: data },
-    });
-  }
+  // -------------------- 後端互動 --------------------
+  // 將商品加入後端購物車
   async function postCart() {
     try {
       const response = await fetch('http://localhost:8080/cart', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newcart.value[0]),
+        body: JSON.stringify(newcart.value[0]), // 只送第一筆暫存
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
       const data = await response.json();
-      newcart.value[0].購物車編號 = data.購物車編號;
+      await getCart(data); // 更新購物車資料
       alert('加入購物車成功!');
       console.log('POST 成功:', data);
     } catch (error) {
       alert('加入購物車失敗!');
       console.error('POST 失敗:', error);
     }
+  }
+
+  // 取得使用者購物車資料
+  async function getCart(id) {
+    try {
+      const res = await fetch(`http://localhost:8080/cart/${id}`);
+      if (!res.ok) throw new Error('伺服器回應錯誤');
+      const data = await res.json();
+      pushcart.value = data; // <- 包在 items 裡
+      console.log('購物車資料:', pushcart.value);
+    } catch (err) {
+      console.error('讀取購物車失敗：', err);
+    }
+  }
+
+  // 前往結帳頁面
+  // 前往結帳頁面
+  function goToBuy() {
+    // 1. 先確認 pushcart.value 是否有值
+    if (!pushcart.value) {
+      console.error('購物車是空的，無法前往結帳');
+      alert('購物車資料錯誤，無法結帳！');
+      return;
+    }
+
+    // 2. 直接判斷 pushcart.value 本身是否為陣列
+    // 如果是陣列，就直接使用；如果不是（表示只有單一物件），就把它放進一個新陣列中
+    const itemsToSend = Array.isArray(pushcart.value) ? pushcart.value : [pushcart.value];
+
+    // 3. 將整理好的陣列包裝後送到下一頁
+    const data = encodeURIComponent(
+      JSON.stringify({
+        items: itemsToSend,
+      }),
+    );
+
+    router.push({
+      name: 'shoplist',
+      query: { items: data },
+    });
   }
 </script>
 
