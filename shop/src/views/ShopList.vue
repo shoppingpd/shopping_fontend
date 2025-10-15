@@ -54,8 +54,8 @@
       </section>
 
       <!-- 右側：訂單摘要 -->
-      <aside class="summary-section">
-        <div class="summary-card">
+      <aside class="summary-section ">
+        <div class="summary-card" >
           <h2 class="summary-title">訂單摘要</h2>
 
           <!-- 商品列表 -->
@@ -174,45 +174,59 @@ const submitOrder = () => {
   padding: 0;
   box-sizing: border-box;
 }
+/* ======== 基礎重置 ======== */
+html, body {
+  height: 100%; /* 讓 html 和 body 填滿整個視窗高度 */
+  width: 100%;
+}
+
+/* 如果你的 Vue 應用程式有一個根掛載點，例如 <div id="app">，也需要設定 */
+#app { /* 根據你的實際情況，可能是 #app 或其他 id/class */
+  height: 100%;
+}
 
 /* ======== 主容器 ======== */
 .checkout {
-  min-height: 100vh;
-  padding: 2rem;
   font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif;
   font-size: 16px;
-  line-height: 1.6;
   color: var(--c-text);
   background: var(--c-background);
   -webkit-font-smoothing: antialiased;
+  width: 100%;
+  height: 50%;
+
 }
 
 /* ======== 版面配置：響應式雙欄布局 ======== */
 .layout {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 400px;  /* 左側自適應，右側固定400px */
+  margin: 2.5% auto;
   gap: 3rem;
-  align-items: start;
-}
+  display: flex; /* flex 才能排水平或垂直 */
+  flex-direction: row; /* 上下排列 */
+  align-items: stretch; /* 確保兩欄等高 */
 
-/* 平板以下改為單欄 */
-@media (max-width: 968px) {
-  .layout {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
+  width: 100%;
+
 }
 
 /* ======== 左側表單區域 ======== */
 .form-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;  /* ← 改成靠左 */
   background: var(--c-card);
   border-radius: var(--radius-lg);
-  padding: 3rem;
   box-shadow: var(--shadow-md);
   transition: box-shadow 0.3s ease;
+  flex: 1;
+  margin-left: 10%;
+  width: 100%;
+
+
+
 }
+
 
 .form-section:hover {
   box-shadow: var(--shadow-lg);
@@ -241,6 +255,7 @@ const submitOrder = () => {
   display: flex;
   flex-direction: column;
   gap: 1.8rem;
+  width: 100%;
 }
 
 /* 欄位組 */
@@ -248,6 +263,7 @@ const submitOrder = () => {
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
+  width: 100%;
 }
 
 .field-label {
@@ -320,8 +336,13 @@ const submitOrder = () => {
 
 /* ======== 右側訂單摘要 ======== */
 .summary-section {
-  position: sticky;
-  top: 2rem;
+
+  flex: 1;
+  display: flex;
+  /* 移除 align-items 和 justify-content 來取消置中 */
+  /* align-items: center; */
+  /* justify-content: center; */
+  margin-bottom: 2rem;
 }
 
 .summary-card {
@@ -330,6 +351,8 @@ const submitOrder = () => {
   padding: 2rem;
   color: white;
   box-shadow: var(--shadow-lg);
+
+  overflow-y: auto; /* 太長就捲動 */
 }
 
 .summary-title {
@@ -434,24 +457,5 @@ const submitOrder = () => {
   font-size: 1.8rem;
   font-weight: 700;
   letter-spacing: -0.02em;
-}
-
-/* ======== 手機版響應式調整 ======== */
-@media (max-width: 768px) {
-  .checkout {
-    padding: 1rem;
-  }
-
-  .form-section {
-    padding: 2rem 1.5rem;
-  }
-
-  .title {
-    font-size: 2rem;
-  }
-
-  .summary-section {
-    position: static;
-  }
 }
 </style>
