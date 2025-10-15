@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>會員中心</title>
+  <link rel="stylesheet" href="hw5(1008)/style.css">
+  <link rel="stylesheet" href="newmembercenter.css">
+  <script src="hw5(1008)/script.js" defer></script>
+  <script src="newmembercenter.js" defer></script>
+</head>
+<body>
+
+<header>
+  <div class="top-header">
+    <div class="logo">LOGO</div>
+    <div class="actions">
+      <button>購物車</button>
+      <button>登入/註冊</button>
+    </div>
+  </div>
+  <nav class="nav-bar">
+    <button>女裝</button>
+    <button>男裝</button>
+    <button>童裝</button>
+    <button>限時特價</button>
+    <input type="text" placeholder="搜尋...">
+  </nav>
+</header>
+
+<main class="main-layout">
+  <aside class="sidebar">
+    <a href="#" class="sidebar-link" onclick="showSection('profile')">會員資料與更新</a>
+    <a href="#" class="sidebar-link" onclick="showSection('orders')">訂單查詢</a>
+  </aside>
+
+  <section class="content" id="content-area">
+    <!-- JS 會把外部 HTML 插入這裡 -->
+  </section>
+
+
+</main>
+
+<footer>
+  <button>配送方式</button>
+  <button>退換貨說明</button>
+</footer>
+
+</body>
+</html>
