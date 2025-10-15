@@ -28,6 +28,24 @@ const router = createRouter({
       name: 'shoplist',
       component: () => import('../views/ShopList.vue'),
     },
+
+    {
+      path: '/member',
+      component: () => import('../views/MemberCenter.vue'),
+      children: [
+        {
+          path: 'profile',
+          name: 'profile',
+          component: () => import('../views/ProfileView.vue')
+        },
+        {
+          path: 'orders',
+          name: 'orders',
+          component: () => import('../views/OrdersView.vue')
+        }
+      ]
+    }
+
   ],
 })
 
