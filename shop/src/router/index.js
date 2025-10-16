@@ -32,6 +32,7 @@ const router = createRouter({
     {
       path: '/member',
       component: () => import('../views/MemberCenter.vue'),
+      redirect: '/member/profile',
       children: [
         {
           path: 'profile',
@@ -42,6 +43,29 @@ const router = createRouter({
           path: 'orders',
           name: 'orders',
           component: () => import('../views/OrdersView.vue')
+        }
+      ]
+    },
+
+    {
+      path: '/myshop',
+      component: () => import('../views/MyShop.vue'),
+      redirect: '/myshop/myproduct',
+      children: [
+        {
+          path: 'myproduct',
+          name: 'myproduct',
+          component: () => import('../views/MyProduct.vue')
+        },
+        {
+          path: 'addproduct',
+          name: 'addproduct',
+          component: () => import('../views/MyProductAdd.vue')
+        },
+        {
+          path: 'ordermanagement',
+          name: 'ordermanagement',
+          component: () => import('../views/OrderManagement.vue')
         }
       ]
     }
