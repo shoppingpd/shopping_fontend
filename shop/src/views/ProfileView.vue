@@ -5,6 +5,7 @@
     <div class="form-row"><label>姓名：</label><span>{{ user.姓名 }}</span></div>
     <div class="form-row"><label>性別：</label><span>{{ user.性別 }}</span></div>
     <div class="form-row"><label>年齡：</label><span>{{ user.年齡 }}</span></div>
+    <div class="form-row"><label>電子郵件：</label><span>{{ user.電子郵件 }}</span>
     <div class="form-row">
       <label>地址：</label>
       <span class="form-value">{{ user.地址 }}</span>
@@ -14,14 +15,7 @@
         <button @click="updateAddress">確認變更</button>
       </div>
     </div>
-    <div class="form-row">
-      <label>電子郵件：</label>
-      <span class="form-value">{{ user.電子郵件 }}</span>
-      <label>變更 Email：</label>
-      <div class="email-wrapper">
-        <input v-model="newEmail" type="text" placeholder="請輸入新 Email" />
-        <button @click="updateEmail">確認變更</button>
-      </div>
+
     </div>
 <div class="form-row"><h1>變更密碼</h1></div>
     <div class="form-row">
@@ -38,6 +32,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import '@/assets/newmembercenter.css'
 
 const USE_MOCK = true
 const user = ref({})

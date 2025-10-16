@@ -27,6 +27,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import '@/assets/newmembercenter.css'
 
 const USE_MOCK = true
 const orders = ref([])

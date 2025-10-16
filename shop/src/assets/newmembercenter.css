@@ -1,13 +1,13 @@
 /*個人資料更新頁面*/
 /* 主頁雙欄排版 */
 .main-layout {
+  all: unset;
   display: grid;
   grid-template-columns: 15% 85%;
   width: 100%;
   min-height: 100vh;
   box-sizing: border-box;
   align-items: flex-start;
-  background-color: aqua;
 }
 
 /* 純文字連結樣式 */
@@ -45,14 +45,6 @@
   padding: 24px 16px;
   box-sizing: border-box;
   overflow-y: auto;
-}
-
-.content > main {
-  all: unset; /* 清除預設樣式 */
-  display: block;
-  width: 100%;
-  margin: 0;
-  padding: 0;
 }
 
 
@@ -94,8 +86,7 @@ section.password-change {
   width: 100%;
 }
 
-/* 密碼欄位容器（input + 顯示按鈕） */
-.email-wrapper ,
+/* 地址,密碼欄位容器（input + 顯示按鈕） */
 .address-wrapper ,
 .password-wrapper {
   display: flex;
@@ -104,8 +95,7 @@ section.password-change {
   flex-wrap: nowrap; /* 禁止換行 */
 }
 
-/* Email,地址,密碼輸入欄位 */
-.email-wrapper input[type="text"],
+/* 地址,密碼輸入欄位 */
 .address-wrapper input[type="text"],
 .password-wrapper input[type="password"],
 .password-wrapper input[type="text"],
@@ -214,7 +204,6 @@ button,
   margin: 24px auto;
   padding: 16px;
   max-width: 960px;
-  background-color: #fff;
   box-sizing: border-box;
 }
 
@@ -254,5 +243,13 @@ button,
   border-radius: 6px;
   padding: 16px;
   margin-bottom: 24px;
-  background-color: #fff;
+}
+
+/*會員中心共用設定*/
+/*對應vue頁面的標籤長亮*/
+.sidebar-link.router-link-exact-active {
+  font-weight: bold;
+  color: #000;
+  border-left: 3px solid #333;
+  padding-left: 8px;
 }
