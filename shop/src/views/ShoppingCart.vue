@@ -315,23 +315,21 @@
   };
   const router = useRouter();
   // ----- 結帳 -----
+  // ----- 結帳 -----
   const checkout = async () => {
     const selectedItems = items.value.filter((i) => i.selected);
     if (selectedItems.length === 0) {
       alert('請先選擇商品！');
       return;
     }
-    // **修正：使用正確的屬性名稱**
-    // .map((i) => `${i.商品名稱} x ${i.數量} = ${fmt(i.數量 * i.價格)}`)
-    // .join('\n')
 
-    // alert(`結帳明細\n\n${lines}\n\n合計：${fmt(total.value)}`)
-
-    console.log(selectedItems);
-    const data = encodeURIComponent(JSON.stringify(selectedItems));
+    // ★★★ 核心修正點 ★★★
+    // 將 selectedItems 陣列包裝在一個物件中，key 為 "items"
+    // 這樣結構才會是 { items: [...] }，以符合結帳頁面的期望
+    const data = encodeURIComponent(JSON.stringify({ items: selectedItems }));
 
     router.push({
-      name: 'shoplist', // 假設你的結帳頁 route 名叫 checkout
+      name: 'shoplist', // 確保這個路由名稱與你的 router 設定相符
       query: { items: data },
     });
   };

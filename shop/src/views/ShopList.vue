@@ -118,12 +118,14 @@
   try {
     const data = route.query.items;
     if (data) {
-      state.items = JSON.parse(decodeURIComponent(data));
+      const parsedData = JSON.parse(decodeURIComponent(data));
+      // 從解析出來的物件中，取出 'items' 屬性（也就是那個陣列）
+      state.items = parsedData.items;
     }
   } catch (err) {
     console.error('解析失敗', err);
   }
-  console.log(state);
+  console.log('購物車資料:', state);
 
   const user = ref(1);
   const buyer = ref([]);
@@ -143,7 +145,17 @@
   // ======== 訂購人資料 ========
 
   // ======== 計算小計金額 ========
-  const subtotal = computed(() => state.items.reduce((sum, i) => sum + i.價格 * i.數量, 0));
+  const subtotal = computed(() => {
+    const items = Array.isArray(state.items) ? state.items : [state.items];
+    let sum = 0;
+    for (const i of items) {
+      // 保險起見，檢查 i.價格 和 i.數量 是否存在
+      const price = Number(i.價格) || 0;
+      const qty = Number(i.數量) || 0;
+      sum += price * qty;
+    }
+    return sum;
+  });
 
   // ======== 計算運費（宅配滿1500免運，否則90元） ========
   const shipping = computed(() => (subtotal.value >= 3000 ? 0 : 100));
@@ -168,7 +180,7 @@
         總金額: total.value,
         狀態: '未出貨',
       };
-      item.狀態 = 1;
+      item.狀態 = '1';
       await fetch('http://localhost:8080/list', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -191,8 +203,35 @@
       } catch (err) {
         console.error('錯誤：', err);
       }
-    }
+      const postorderItem = {};
+      try {
+        const res = await fetch(`http://localhost:8080/products/${item.商品編號}`);
+        if (!res.ok) throw new Error('伺服器回應錯誤');
+        postorderItem.value = await res.json();
+        console.log('商品資料：' + postorderItem.value);
+      } catch (err) {
+        console.error('讀取失敗：', err);
+      }
+      // 更新商品
+      postorderItem.value.庫存數量 = postorderItem.value.庫存數量 - item.數量;
+      try {
+        const res = await fetch(`http://localhost:8080/products/${item.商品編號}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' }, // ⚠️ 記得加 header
+          body: JSON.stringify(postorderItem.value),
+        });
 
+        if (!res.ok) {
+          throw new Error('更新失敗');
+        }
+
+        const data = await res.json();
+
+        console.log('更新成功：', data);
+      } catch (err) {
+        console.error('錯誤：', err);
+      }
+    }
     alert(`訂單已成功送出！`);
     router.push('/');
   };
