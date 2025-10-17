@@ -1,7 +1,6 @@
 /*個人資料更新頁面*/
 /* 主頁雙欄排版 */
 .main-layout {
-  all: unset;
   display: grid;
   grid-template-columns: 15% 85%;
   width: 100%;

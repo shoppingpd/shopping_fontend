@@ -5,23 +5,19 @@
     <div class="form-row"><label>姓名：</label><span>{{ user.姓名 }}</span></div>
     <div class="form-row"><label>性別：</label><span>{{ user.性別 }}</span></div>
     <div class="form-row"><label>年齡：</label><span>{{ user.年齡 }}</span></div>
-    <div class="form-row"><label>電子郵件：</label><span>{{ user.電子郵件 }}</span>
-    <div class="form-row">
-      <label>地址：</label>
-      <span class="form-value">{{ user.地址 }}</span>
-      <label>變更地址：</label>
-      <div class="address-wrapper">
-        <input v-model="newAddress" type="text" placeholder="請輸入新地址" />
+    <div class="form-row"><label>電子郵件：</label><span>{{ user.電子郵件 }}</span></div>
+    <div class="form-row"><label>地址：</label><span class="form-value">{{ user.地址 }}</span></div>
+    <div class="form-row"><label class="invisible-label">變更地址：</label>
+      <div class="address-wrapper"><input v-model="newAddress" type="text" placeholder="請輸入新地址" />
         <button @click="updateAddress">確認變更</button>
       </div>
     </div>
 
-    </div>
 <div class="form-row"><h1>變更密碼</h1></div>
     <div class="form-row">
       <label>新密碼：</label>
       <div class="password-wrapper">
-      <input :type="showPassword ? 'text' : 'password'" v-model="newPassword" id="new-password" />
+      <input :type="showPassword ? 'text' : 'password'" v-model="newPassword" id="new-password" placeholder="請輸入新密碼"/>
       <button @click="togglePassword">{{ showPassword ? '隱藏' : '顯示' }}</button>
       <button @click="updatePassword">確認變更</button>
       </div>

@@ -189,17 +189,17 @@ main.main {
 }
 
 /*我的商品管理頁面*/
-/*商品資料卡*/
+/*商品資料卡 ===== 商品列排版設定（三欄式） =====*/
 .item {
   border: 1px solid #ccc;
   border-radius: 6px;
-  padding: 16px;
-  margin-bottom: 16px;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 20px;
-  border-bottom: 1px dashed var(--border);
-  align-items: start;
+  padding: 16px; /* 商品列內距 */
+  margin-bottom: 16px; /* 增加間距，讓上下框線分開 */
+  display: grid; /* 使用 grid 排版 */
+  grid-template-columns: 1fr 1fr 1fr;    /* 三欄各占 1/3 寬度：圖片 / 原始資料 / 編輯欄位 */
+  gap: 20px; /* 欄位間距 */
+  align-items: start; /* 垂直對齊上方 */
+
 }
 
 /* 商品清單外框樣式（類似卡片區塊） */
@@ -209,16 +209,6 @@ main.main {
   border-radius: var(--radius);    /* 圓角 */
   box-shadow: var(--shadow);       /* 陰影效果 */
   padding: 16px;                   /* 內距 */
-}
-
-/* ===== 商品列排版設定（三欄式） ===== */
-.item {
-  display: grid;                         /* 使用 grid 排版 */
-  grid-template-columns: 1fr 1fr 1fr;    /* 三欄各占 1/3 寬度：圖片 / 原始資料 / 編輯欄位 */
-  gap: 20px;                             /* 欄位間距 */
-  padding: 16px;                         /* 商品列內距 */
-  border-bottom: 1px dashed var(--border); /* 下方虛線分隔線 */
-  align-items: start;                   /* 垂直對齊上方 */
 }
 
 /* ===== 商品圖片區塊設定 ===== */
