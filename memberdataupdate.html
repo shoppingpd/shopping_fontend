@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>會員中心-個人資料查詢與更新</title>
+  <link rel="stylesheet" href="newmembercenter.css">
+  <script src="newmembercenter.js" defer></script>
+</head>
+<body>
+
+<main class="main">
+  <section class="user-info">
+    <h2>會員資料</h2>
+    <div class="form-row">
+      <label for="user-account">帳號：</label>
+      <span id="user-account" class="form-value"></span>
+    </div>
+    <div class="form-row">
+      <label for="user-name">姓名：</label>
+      <span id="user-name" class="form-value"></span>
+    </div>
+    <div class="form-row">
+      <label for="user-gender">性別：</label>
+      <span id="user-gender" class="form-value"></span>
+    </div>
+    <div class="form-row">
+      <label for="user-age">年齡：</label>
+      <span id="user-age" class="form-value"></span>
+    </div>
+    <div class="form-row">
+      <label for="user-email">Emai：</label>
+      <span id="user-email" class="form-value"></span>
+      <label for="new-email">變更Email：</label>
+      <div class="email-wrapper">
+        <input id="new-email" type="text" placeholder="請輸入Email">
+        <button id="update-email-btn">確認變更</button>
+      </div>
+    </div>
+    <div class="form-row">
+      <label for="user-address">預設地址：</label>
+      <span id="user-address" class="form-value"></span>
+      <label for="new-address">變更地址：</label>
+      <div class="address-wrapper">
+        <input id="new-address" type="text" placeholder="請輸入新地址">
+        <button id="update-address-btn">確認變更</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="password-change">
+    <h2>變更密碼</h2>
+    <div class="form-row">
+      <label for="new-password">新密碼：</label>
+      <div class="password-wrapper">
+        <input type="password" id="new-password" placeholder="請輸入新密碼">
+        <button type="button" id="toggle-password">顯示</button>
+        <button id="update-password-btn">確認變更</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+</body>
+</html>

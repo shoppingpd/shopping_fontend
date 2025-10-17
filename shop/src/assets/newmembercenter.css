@@ -1,0 +1,255 @@
+/*個人資料更新頁面*/
+/* 主頁雙欄排版 */
+.main-layout {
+  all: unset;
+  display: grid;
+  grid-template-columns: 15% 85%;
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+  align-items: flex-start;
+}
+
+/* 純文字連結樣式 */
+.sidebar-link {
+  display: block;
+  font-size: 16px;
+  color: #333;
+  text-decoration: none;
+  padding: 4px 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+/* 點選高亮（可選） */
+.sidebar-link.active {
+  font-weight: bold;
+  color: #000;
+  border-left: 3px solid #333;
+  padding-left: 8px;
+}
+
+/* 左側選單欄 */
+.sidebar {
+  padding: 24px 16px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: transparent;
+}
+
+/* 右側內容欄 */
+.content {
+  padding: 24px 16px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+
+/* 區塊寬度與間距 */
+section.user-info,
+section.password-change {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+/* 三欄排版：表格格線風格 */
+.form-row {
+  display: grid;
+  grid-template-columns: 10em 30em;
+  align-items: center;
+  margin-bottom: 8px;
+  box-sizing: border-box;
+}
+
+/* 左欄：標籤 */
+.form-row label {
+  padding: 6px 10px;
+  font-weight: bold;
+  font-size: 15px;
+  color: #333;
+  text-align: right;
+  box-sizing: border-box;
+}
+
+/* 中欄：資料欄位（span） */
+.form-value {
+  padding: 6px 10px;
+  font-size: 16px;
+  color: #444;
+  min-height: 1.5em;
+  box-sizing: border-box;
+  display: inline-block;
+  width: 100%;
+}
+
+/* 地址,密碼欄位容器（input + 顯示按鈕） */
+.address-wrapper ,
+.password-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap; /* 禁止換行 */
+}
+
+/* 地址,密碼輸入欄位 */
+.address-wrapper input[type="text"],
+.password-wrapper input[type="password"],
+.password-wrapper input[type="text"],
+input[type="password"],
+input[type="text"] {
+  padding: 6px 10px;
+  font-size: 16px;
+  font-family: inherit;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 35ch;
+  box-sizing: border-box;
+}
+
+/* 顯示/隱藏密碼按鈕 */
+#toggle-password {
+  padding: 6px 10px;
+  font-size: 14px;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* 所有按鈕：穩定灰底、黑字 */
+button,
+#toggle-password {
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 14px;
+  height: 36px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #f5f5f5;
+  color: #000;
+  box-sizing: border-box;
+}
+
+/* 確認密碼按鈕寬度 */
+#update-password-btn {
+  width: auto;
+  max-width: 8em;
+}
+
+/* 狀態提示文字：跨欄顯示 */
+.form-status {
+  color: green;
+  font-size: 14px;
+  padding: 6px 10px;
+  grid-column: 2 / span 2;
+}
+
+/* 隱形標籤佔位（保持對齊） */
+.invisible-label {
+  visibility: hidden;
+  padding: 6px 10px;
+  box-sizing: border-box;
+}
+
+/* 響應式排版：小螢幕自動換行 */
+@media (max-width: 768px) {
+  .sidebar,
+  .content {
+    width: 100%;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row label,
+  .form-value,
+  .grid-spacer {
+    width: 100%;
+    padding: 6px 10px;
+  }
+
+  .form-row label {
+    text-align: left;
+    font-weight: bold;
+  }
+
+  .form-row:last-child .grid-spacer {
+    border-bottom: none;
+  }
+
+  .form-status {
+    grid-column: auto;
+    margin-left: 0;
+  }
+
+  .password-wrapper {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .password-wrapper input,
+  .password-wrapper button {
+    width: 100%;
+  }
+}
+
+/*個人訂購紀錄頁面*/
+.order-record {
+  margin: 24px auto;
+  padding: 16px;
+  max-width: 960px;
+  box-sizing: border-box;
+}
+
+.order-header,
+.order-row {
+  display: grid;
+  grid-template-columns: 12ch 14ch 1fr 6ch 8ch 8ch;
+  gap: 8px;
+  font-size: 15px;
+  color: #333;
+  padding: 6px 0;
+}
+
+.order-header {
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+}
+
+.order-row {
+  color: #444;
+}
+
+.order-total {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.order-total .label {
+  margin-right: 8px;
+}
+
+.order-box {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+/*會員中心共用設定*/
+/*對應vue頁面的標籤長亮*/
+.sidebar-link.router-link-exact-active {
+  font-weight: bold;
+  color: #000;
+  border-left: 3px solid #333;
+  padding-left: 8px;
+}

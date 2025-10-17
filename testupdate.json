@@ -1,0 +1,32 @@
+[
+  {
+    "id": "p001",
+    "name": "測試商品 A",
+    "description": "這是商品 A 的描述",
+    "color": "紅#ff0000,藍#0000ff",
+    "size": "S,M,L",
+    "price": 999,
+    "stock": 10,
+    "image": "MAN/ST01.jpg"
+  },
+  {
+    "id": "p002",
+    "name": "測試商品 B",
+    "description": "這是商品 B 的描述",
+    "color": "黑#000000,白#ffffff",
+    "size": "M,L,XL",
+    "price": 1299,
+    "stock": 5,
+    "image": "MAN/LT01.jpg"
+  },
+  {
+    "id": "p003",
+    "name": "測試商品 C",
+    "description": "這是商品 C 的描述",
+    "color": "綠#00ff00",
+    "size": "XS,S",
+    "price": 799,
+    "stock": 20,
+    "image": "MAN/HD01.jpg"
+  }
+]
