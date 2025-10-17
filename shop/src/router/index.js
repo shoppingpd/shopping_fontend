@@ -40,6 +40,10 @@ const router = createRouter({
       component: () => import('../views/MyShop.vue'),
       children: [
         {
+          path: '',
+          redirect: { name: 'myproduct' } //預設導向 myproduct
+        },
+        {
           path: 'myproduct',
           name: 'myproduct',
           component: () => import('../views/MyProduct.vue'),
@@ -62,6 +66,10 @@ const router = createRouter({
       path: '/membercenter',
       component: () => import('../views/MemberCenter.vue'),
       children: [
+        {
+          path: '',
+          redirect: { name: 'profile' } //預設導向 profile
+        },
         {
           path: 'profile',
           name: 'profile',
