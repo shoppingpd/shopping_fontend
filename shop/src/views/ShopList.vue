@@ -106,6 +106,8 @@
   // 匯入 Vue 3 核心 API
   import { reactive, computed, ref, onMounted } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
+  import { useUserStore } from '@/stores/user';
+  const userStore = useUserStore();
   onMounted(() => {
     loaduser();
   });
@@ -127,7 +129,7 @@
   }
   console.log('購物車資料:', state);
 
-  const user = ref(1);
+  const user = ref(userStore.id);
   const buyer = ref([]);
   async function loaduser() {
     try {
@@ -233,7 +235,7 @@
       }
     }
     alert(`訂單已成功送出！`);
-    router.push('/');
+    router.push('/home');
   };
 </script>
 

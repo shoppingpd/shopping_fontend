@@ -119,9 +119,11 @@
 <script setup>
   import { ref, computed, onMounted } from 'vue';
   import { useRouter } from 'vue-router';
+  import { useUserStore } from '@/stores/user';
+  const userStore = useUserStore();
 
   // ----- 設定 -----
-  const myuser = ref(1); // 預設使用者1
+  const myuser = ref(userStore.id); // 預設使用者1
 
   // ----- 響應式狀態 -----
   const items = ref([]); // **核心修正：使用 ref 來儲存購物車商品，這是唯一的數據源**

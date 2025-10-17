@@ -98,7 +98,8 @@
 <script setup>
   import { ref, onMounted } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
-
+  import { useUserStore } from '@/stores/user';
+  const userStore = useUserStore();
   // -------------------- 資料與狀態 --------------------
   const product = ref({}); // 商品資料
   const colors = ref([]); // 商品顏色選項
@@ -106,7 +107,7 @@
   const selectedColor = ref(''); // 使用者選擇的顏色
   const selectedSize = ref(''); // 使用者選擇的尺寸
   const quantity = ref(0); // 商品數量
-  const user = ref(1); // 假設的使用者編號
+  const user = ref(userStore.id); // 假設的使用者編號
   const newcart = ref([]); // 新增購物車暫存
   const pushcart = ref([]); // 從後端取得的購物車資料
 

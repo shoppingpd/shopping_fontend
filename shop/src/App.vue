@@ -2,15 +2,17 @@
   <div id="app" class="container">
     <!-- ===== Header ===== -->
     <header>
-      <div class="wrapper">
+      <div v-if="!isLoginPage" class="wrapper">
         <nav class="containerfornav">
           <div class="box" v-for="i in 8" :key="i">
             <div v-if="i == 1" class="icon"></div>
-            <RouterLink v-if="i == 3" to="/">首頁</RouterLink>
-            <RouterLink v-if="i == 4" to="/myshop">我的賣場</RouterLink>
+            <RouterLink v-if="i == 3" to="/home">首頁</RouterLink>
+            <RouterLink v-if="i == 4" to="/x">我的賣場</RouterLink>
 
             <RouterLink v-if="i == 5" to="/shop">購物車</RouterLink>
-            <RouterLink v-if="i == 6" to="/member">會員中心</RouterLink>
+            <RouterLink v-if="i == 6" to="/login">會員中心</RouterLink>
+
+            <RouterLink v-if="i == 8" to="/" class="logout">登出</RouterLink>
           </div>
         </nav>
       </div>
@@ -23,7 +25,7 @@
   </div>
 
   <!-- ===== Footer ===== -->
-  <footer>
+  <footer v-if="!isLoginPage">
     <div class="footer-container">
       <button>配送方式</button>
       <button>退換貨說明</button>
@@ -31,15 +33,22 @@
     </div>
   </footer>
 </template>
-<script>
-  import { onMounted } from 'vue';
-  export default {
-    setup() {
-      onMounted(() => {
-        document.title = 'SHOPPING BUY';
-      });
-    },
-  };
+<script setup>
+  import { onMounted, computed } from 'vue';
+  import { useRoute } from 'vue-router';
+  // 為了在 <template> 中使用，RouterLink 和 RouterView 必須被導入。
+  import { RouterLink, RouterView } from 'vue-router';
+
+  // 1. 取得路由實例
+  const route = useRoute();
+
+  // 2. 建立計算屬性，判斷目前路徑是否為 '/login'
+  const isLoginPage = computed(() => route.path === '/');
+
+  // 3. 組件掛載後執行
+  onMounted(() => {
+    document.title = 'SHOPPING BUY';
+  });
 </script>
 <style scoped>
   /* ===== 全頁預設 ===== */
@@ -156,6 +165,20 @@
     transition: all 0.3s;
   }
   footer button:hover {
+    text-decoration: underline;
+  }
+  .logout {
+    background: none;
+    border: none;
+    width: 60%;
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+  }
+  .logout:hover {
     text-decoration: underline;
   }
 </style>
