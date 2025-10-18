@@ -53,14 +53,15 @@
 }
 
 /* 文字輸入欄位 */
-input[type="text"] {
-  padding: 6px 10px;
-  font-size: 16px;
-  font-family: inherit;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.editor-input {
   width: 100%;
+  min-height: 2.5em;
+  resize: none;
+  white-space: pre-wrap;
+  word-break: break-word;
   box-sizing: border-box;
+  padding: 0.5em;
+  font-size: 1em;
 }
 
 /* 所有按鈕：穩定灰底、黑字 */
@@ -76,6 +77,14 @@ button {
   color: #000;
   box-sizing: border-box;
 }
+
+/*欄位字超出自動換行*/
+.value {
+  display: inline-block;
+  white-space: normal;
+  word-break: break-word;
+}
+
 
 /* 響應式排版：小螢幕自動換行 */
 @media (max-width: 768px) {

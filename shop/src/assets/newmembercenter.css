@@ -140,6 +140,10 @@ button,
   max-width: 8em;
 }
 
+#update-status {
+  color: blue;
+}
+
 /* 狀態提示文字：跨欄顯示 */
 .form-status {
   color: green;

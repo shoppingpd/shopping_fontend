@@ -1,5 +1,6 @@
 <template>
   <section class="order-record">
+    <div id="update-status" class="status-info">{{ updateStatus }}</div>
     <div v-for="[orderId, items] in groupedOrders" :key="orderId" class="order-box">
       <div class="order-header">
         <div>訂購日期</div>
@@ -27,19 +28,41 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import { useUserStore } from '@/stores/user'
 import '@/assets/myshop.css'
 
-const USE_MOCK = true
+const userStore = useUserStore()
+const userId = computed(() => userStore.id)
 const orders = ref([])
+const updateStatus = ref('')
 
-onMounted(() => {
-  const url = USE_MOCK ? "/testorderlist.json" : "/api/orders"
-  fetch(url)
-    .then(res => res.json())
-    .then(data => {
-      orders.value = data
-    })
+onMounted(async () => {
+  if (!userId.value || isNaN(userId.value)) {
+    console.error('無法取得使用者 ID')
+    return
+  }
+
+  try {
+    const res = await fetch(`http://localhost:8080/list/user/${userId.value}`)
+    
+    //處理 404 與其他錯誤
+    if (!res.ok) {
+      if (res.status === 404) {
+        updateStatus.value = '目前尚無訂單紀錄'
+        orders.value = []
+        return
+      }
+      throw new Error('訂單載入失敗')
+    }
+
+    const data = await res.json()
+    orders.value = data
+  } catch (err) {
+    console.error('訂單載入失敗：', err.message)
+    updateStatus.value = '訂單載入失敗'
+  }
 })
+
 
 const groupedOrders = computed(() => {
   const map = new Map()
@@ -57,5 +80,4 @@ function getOrderTotal(items) {
     return sum + subtotal
   }, 0)
 }
-
 </script>

@@ -27,88 +27,88 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
+import { useUserStore } from '@/stores/user'
 import '@/assets/newmembercenter.css'
 
-const USE_MOCK = true
+const userStore = useUserStore()
 const user = ref({})
-const newPassword = ref("")
+const newAddress = ref('')
+const newPassword = ref('')
 const showPassword = ref(false)
-const updateStatus = ref("")
+const updateStatus = ref('')
 
-onMounted(() => {
-  const url = USE_MOCK ? "/testprofile.json" : "/api/user-info"
-  fetch(url)
-    .then(res => res.json())
-    .then(data => {
-      user.value = data
-    })
-})
+// 直接從 Pinia 拿 userId
+const userId = computed(() => userStore.id)
 
-const newEmail = ref("")
-const newAddress = ref("")
-
-function updateEmail() {
-  if (!newEmail.value) {
-    updateStatus.value = "請輸入新 Email"
+// 載入使用者資料
+async function fetchUserProfile() {
+  if (!userId.value || isNaN(userId.value)) {
+    updateStatus.value = '無法取得使用者 ID'
+    console.error('userStore.id 無效或不存在')
     return
   }
-  fetch("/api/update-email", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email: newEmail.value })
-  })
-    .then(res => res.json())
-    .then(result => {
-      updateStatus.value = result.message
-      user.value.電子郵件 = newEmail.value
+
+  try {
+    const res = await fetch(`http://localhost:8080/user/${userId.value}`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
     })
-    .catch(() => {
-      updateStatus.value = "Email 更新失敗"
-    })
+    if (!res.ok) throw new Error('載入失敗')
+    user.value = await res.json()
+  } catch (err) {
+    console.error('使用者資料載入失敗：', err.message)
+    updateStatus.value = '載入失敗'
+  }
 }
 
-function updateAddress() {
-  if (!newAddress.value) {
-    updateStatus.value = "請輸入新地址"
+// 通用更新函式
+async function updateUserField(field, value) {
+  if (!userId.value || isNaN(userId.value)) {
+    updateStatus.value = '無法取得使用者 ID'
     return
   }
-  fetch("/api/update-address", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ address: newAddress.value })
+
+  const updated = { ...user.value, [field]: value }
+  const res = await fetch(`http://localhost:8080/user/${userId.value}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(updated)
   })
-    .then(res => res.json())
-    .then(result => {
-      updateStatus.value = result.message
-      user.value.地址 = newAddress.value
-    })
-    .catch(() => {
-      updateStatus.value = "地址更新失敗"
-    })
+  if (!res.ok) {
+    updateStatus.value = `${field} 更新失敗`
+    return
+  }
+  updateStatus.value = `${field} 更新成功`
+  //清空對應欄位值
+  if (field === '地址') newAddress.value = ''
+  if (field === '密碼') newPassword.value = ''
+  await fetchUserProfile()
+}
+
+// 個別更新函式
+function updateAddress() {
+  if (!newAddress.value) {
+    updateStatus.value = '請輸入新地址'
+    return
+  }
+  updateUserField('地址', newAddress.value)
+}
+
+function updatePassword() {
+  if (!newPassword.value) {
+    updateStatus.value = '請輸入新密碼'
+    return
+  }
+  updateUserField('密碼', newPassword.value)
 }
 
 function togglePassword() {
   showPassword.value = !showPassword.value
 }
 
-function updatePassword() {
-  if (!newPassword.value) {
-    updateStatus.value = "請輸入新密碼"
-    return
-  }
-
-  fetch("/api/update-password", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ 密碼: newPassword.value })
-  })
-    .then(res => res.json())
-    .then(result => {
-      updateStatus.value = result.message
-    })
-    .catch(() => {
-      updateStatus.value = "更新失敗"
-    })
-}
+// 初始化載入
+onMounted(() => {
+  fetchUserProfile()
+})
 </script>
